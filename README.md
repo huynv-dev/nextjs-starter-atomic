@@ -28,7 +28,7 @@
       Header.stories.tsx
       Header.test.tsx
     ...
-/pages
+/app
   index.tsx
   _app.tsx
   ...
