@@ -1,0 +1,11 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .error {
+    color: #dc2626;
+    font-size: 0.875rem;
+  }
+  
