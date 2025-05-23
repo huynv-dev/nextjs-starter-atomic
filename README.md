@@ -200,4 +200,204 @@
 
 ---
 
+## 8. Hướng dẫn sử dụng biến môi trường (Environment Variables)
+
+### 8.1. Đặt biến môi trường ở đâu?
+- Tạo file `.env.local` ở thư mục gốc dự án để lưu các biến môi trường riêng cho từng máy.
+- Có thể có thêm `.env`, `.env.development`, `.env.production` cho từng môi trường cụ thể.
+
+### 8.2. Quy tắc sử dụng biến môi trường trong Next.js
+- **Biến môi trường chỉ dùng ở server:**
+  - Đặt tên bình thường, ví dụ: `DATABASE_URL`, `SECRET_KEY`, ...
+  - Chỉ truy cập được ở phía server (API routes, getServerSideProps, getStaticProps, ...).
+- **Biến môi trường dùng ở client:**
+  - Bắt buộc phải có prefix `NEXT_PUBLIC_`, ví dụ: `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID`, ...
+  - Chỉ những biến có prefix này mới được Next.js expose ra phía client/browser.
+
+### 8.3. Cách sử dụng trong code
+- Đọc biến môi trường bằng `process.env`:
+  ```ts
+  // Chỉ dùng được ở server
+  const dbUrl = process.env.DATABASE_URL
+
+  // Dùng được ở cả client và server
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
+  ```
+- **Lưu ý:** Không destructure trực tiếp từ `process.env` (vì sẽ bị undefined khi build):
+  ```ts
+  // Sai
+  const { NEXT_PUBLIC_API_URL } = process.env
+  // Đúng
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
+  ```
+
+### 8.4. Lưu ý bảo mật
+- **Không bao giờ** để lộ biến môi trường nhạy cảm (token, secret, database, ...) ra phía client.
+- Chỉ những biến có prefix `NEXT_PUBLIC_` mới được dùng ở client.
+- Không commit file `.env.local` lên git (đã có trong `.gitignore`).
+
+### 8.5. Ví dụ file `.env.local`
+```
+DATABASE_URL=postgres://user:pass@localhost:5432/db
+SECRET_KEY=supersecret
+NEXT_PUBLIC_API_URL=https://api.example.com
+NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=G-XXXXXXX
+```
+
+---
+
+Nếu có thắc mắc về biến môi trường, hãy hỏi leader hoặc tham khảo tài liệu Next.js: https://nextjs.org/docs/app/building-your-application/configuring/environment-variables
+
 Nếu có thắc mắc hoặc cần hỗ trợ, hãy liên hệ leader hoặc người phụ trách dự án.
+
+---
+
+## 9. Sử dụng lib/env.ts để truy cập biến môi trường
+
+Để đơn giản hóa và đảm bảo an toàn khi truy cập biến môi trường, dự án đã cung cấp file `lib/env.ts` với 2 object:
+- `serverEnv`: Dùng cho biến môi trường phía server (không lộ ra client)
+- `clientEnv`: Dùng cho biến môi trường phía client (bắt buộc NEXT_PUBLIC_)
+
+### 9.1. Cách sử dụng
+
+#### Truy cập biến môi trường phía server
+```ts
+import { serverEnv } from '@/lib/env'
+
+const dbUrl = serverEnv.DATABASE_URL
+const secret = serverEnv.API_SECRET_KEY
+```
+- Nếu thiếu biến môi trường bắt buộc, app sẽ throw lỗi ngay khi khởi động.
+
+#### Truy cập biến môi trường phía client
+```ts
+import { clientEnv } from '@/lib/env'
+
+const apiBase = clientEnv.NEXT_PUBLIC_API_BASE_URL
+const siteName = clientEnv.NEXT_PUBLIC_SITE_NAME
+```
+- Nếu biến không tồn tại, sẽ trả về chuỗi rỗng `""` (an toàn cho client).
+
+### 9.2. Lưu ý
+- Chỉ import và sử dụng `serverEnv` trong code chạy phía server (API, getServerSideProps, ...).
+- Chỉ sử dụng các biến có prefix `NEXT_PUBLIC_` trong `clientEnv` cho code phía client (component, hook, ...).
+- Không destructure trực tiếp từ `process.env` nữa, luôn dùng qua `lib/env.ts` để đảm bảo an toàn và dễ kiểm soát.
+
+### 9.3. Ví dụ thực tế
+
+#### Ví dụ dùng trong API route (server):
+```ts
+// pages/api/hello.ts
+import { serverEnv } from '@/lib/env'
+
+export default function handler(req, res) {
+  if (req.headers['x-api-key'] !== serverEnv.API_SECRET_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' })
+  }
+  // ...
+}
+```
+
+#### Ví dụ dùng trong component (client):
+```ts
+// components/Footer.tsx
+import { clientEnv } from '@/lib/env'
+
+export function Footer() {
+  return <div>API: {clientEnv.NEXT_PUBLIC_API_BASE_URL}</div>
+}
+```
+
+---
+
+Việc sử dụng `lib/env.ts` giúp code an toàn, dễ kiểm soát và tránh lỗi thiếu biến môi trường khi deploy.
+
+---
+
+## 10. Hướng dẫn deploy Next.js production với PM2 trên Linux
+
+### 10.1. Yêu cầu
+- Đã cài đặt Node.js (khuyến nghị >= 18)
+- Đã cài đặt PM2 toàn cục: `npm install -g pm2`
+- Đã clone source code lên server
+
+### 10.2. Các bước deploy
+
+1. **Cài đặt dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Cấu hình biến môi trường**
+   - Tạo file `.env.local` (hoặc `.env.production`) và điền các biến cần thiết (xem hướng dẫn ở mục 8 và 9).
+
+3. **Build ứng dụng**
+   ```bash
+   npm run build
+   ```
+
+4. **Chạy production với PM2**
+   ```bash
+   pm2 start ecosystem.config.js
+   ```
+   - PM2 sẽ tự động scale app theo số core CPU.
+   - Log sẽ được lưu ở thư mục `./logs`.
+
+5. **Kiểm tra trạng thái app**
+   ```bash
+   pm2 status
+   pm2 logs nextjs-app
+   ```
+
+6. **Cấu hình tự khởi động lại khi reboot server**
+   ```bash
+   pm2 startup
+   pm2 save
+   ```
+
+7. **Dừng hoặc restart app**
+   ```bash
+   pm2 restart nextjs-app
+   pm2 stop nextjs-app
+   pm2 delete nextjs-app
+   ```
+
+### 10.3. Lưu ý
+- Luôn kiểm tra log khi gặp lỗi: `pm2 logs nextjs-app`
+- Đảm bảo đã cấu hình biến môi trường đúng và đủ.
+- Có thể dùng reverse proxy (Nginx, Caddy, ...) để trỏ domain về port 3000.
+- Để bảo mật, chỉ expose các biến có prefix `NEXT_PUBLIC_` ra client.
+
+---
+
+Nếu cần hướng dẫn chi tiết hơn về deploy, hãy liên hệ leader hoặc tham khảo tài liệu chính thức của [Next.js](https://nextjs.org/docs/deployment) và [PM2](https://pm2.keymetrics.io/).
+
+---
+
+## 11. Thứ tự ưu tiên file biến môi trường trong Next.js
+
+Next.js sẽ tự động đọc các file biến môi trường theo thứ tự ưu tiên khác nhau cho từng môi trường:
+
+### 11.1. Khi chạy development (`npm run dev`)
+| Thứ tự | Tên file                  |
+|--------|--------------------------|
+| 1      | `.env.development.local` |
+| 2      | `.env.local`             |
+| 3      | `.env.development`       |
+| 4      | `.env`                   |
+
+### 11.2. Khi chạy production (`npm run build` + `npm start` hoặc PM2)
+| Thứ tự | Tên file                  |
+|--------|--------------------------|
+| 1      | `.env.production.local`  |
+| 2      | `.env.local`             |
+| 3      | `.env.production`        |
+| 4      | `.env`                   |
+
+**Lưu ý:**
+- File có thứ tự cao hơn sẽ override biến cùng tên ở file thứ tự thấp hơn.
+- `.env.local` KHÔNG nên commit lên git (dùng cho biến riêng từng máy).
+- Nếu không có file cho môi trường cụ thể, Next.js sẽ fallback về `.env`.
+- Không cần đổi tên file khi deploy, chỉ cần tạo đúng file cho từng môi trường.
+
+---
