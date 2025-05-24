@@ -5,7 +5,7 @@ import '@testing-library/jest-dom'
 describe('Header', () => {
   it('renders logo', () => {
     render(<Header />)
-    expect(screen.getByText('Shop Demo')).toBeInTheDocument()
+    expect(screen.getByText('Demo Unsplash Gallery')).toBeInTheDocument()
   })
   it('renders Unsplash Gallery link', () => {
     render(<Header />)
