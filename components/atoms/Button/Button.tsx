@@ -1,32 +1,37 @@
-import styles from './button.module.css'
-import { cn } from '@/utils/cn'
+import { ButtonHTMLAttributes } from 'react';
 
-type Variant = 'primary' | 'secondary' | 'danger' | 'outline' | 'ghost'
-type Size = 'sm' | 'md' | 'lg'
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline';
+  fullWidth?: boolean;
+}
 
-type Props = {
-  children: React.ReactNode
-  variant?: Variant
-  size?: Size
-  loading?: boolean
-} & React.ButtonHTMLAttributes<HTMLButtonElement>
+const variants = {
+  primary: 'bg-rose-500 hover:bg-rose-600 text-white',
+  secondary: 'bg-neutral-200 hover:bg-neutral-300 text-neutral-800',
+  outline: 'border border-neutral-200 hover:border-neutral-300'
+};
 
-export const Button = ({
-  children,
-  className,
+export function Button({ 
   variant = 'primary',
-  size = 'md',
-  loading = false,
-  disabled,
+  fullWidth = false,
+  className = '',
+  children,
   ...props
-}: Props) => {
+}: ButtonProps) {
   return (
     <button
-      className={cn(styles.button, styles[variant], styles[size], className)}
-      disabled={disabled || loading}
+      className={`
+        ${variants[variant]}
+        ${fullWidth ? 'w-full' : ''}
+        py-3 px-4
+        rounded-lg
+        transition
+        font-medium
+        ${className}
+      `}
       {...props}
     >
-      {loading ? 'Loading...' : children}
+      {children}
     </button>
-  )
+  );
 }

@@ -1,3 +1,23 @@
+# Airbnb Clone - Modern Structure
+
+## Cấu trúc thư mục
+
+- `app/`: Các page chính (Next.js)
+- `components/`: UI components (atoms, molecules, organisms, templates)
+- `features/`: Logic và UI theo domain (rooms, bookings, users)
+- `mocks/`: Mock API (MSW)
+- `lib/`: Tiện ích, config
+- `stores/`: State management
+- `styles/`: Global style, theme
+
+## Roadmap
+1. Thiết kế lại cấu trúc thư mục hiện đại
+2. Tạo mock API với MSW
+3. Xây dựng các component UI chính (RoomCard, RoomList, ...)
+4. Xây dựng các page chính (Home, Room Detail, Booking)
+5. Kết nối UI với mock API
+6. Tối ưu UI/UX với Tailwind CSS
+
 # Nextjs Project
 
 ## 1. Cấu trúc thư mục dự án
