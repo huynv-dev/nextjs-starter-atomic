@@ -14,11 +14,16 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
+    "axios": "^1.9.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.511.0",
     "next": "15.1.8",
+    "prop-types": "^15.8.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-loading-skeleton": "^3.5.0",
+    "react-responsive-masonry": "^2.7.1",
+    "react-window": "^1.8.11",
     "swr": "^2.3.3",
     "tailwind-merge": "^3.3.0",
     "zustand": "^5.0.5"
@@ -39,6 +44,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-responsive-masonry": "^2.6.0",
     "@vitest/browser": "^3.1.4",
     "@vitest/coverage-v8": "^3.1.4",
     "autoprefixer": "^10.4.21",
