@@ -1,11 +1,12 @@
 "use client"
-import React, { useEffect, useRef, useCallback, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState, useCallback } from 'react'
 import { useUnsplashStore } from '@/stores/unsplashStore'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { UnsplashPhoto } from '@/types/unsplash'
 import PhotoCard from '@/components/molecules/PhotoCard/PhotoCard'
+import { useInView } from 'react-intersection-observer'
 
 const PAGE_SIZE = 10
 const WINDOW_SIZE = 200
@@ -31,9 +32,9 @@ function GalleryPreview({ images, index, open, onClose }: { images: UnsplashPhot
 
 export default function PhotoGrid() {
   const { photos, loading, fetchRandomPhotos } = useUnsplashStore()
-  const loaderRef = useRef<HTMLDivElement | null>(null)
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewIndex, setPreviewIndex] = useState(0)
+  const { ref: loaderRef, inView } = useInView({ triggerOnce: false, threshold: 0 })
 
   // Chỉ giữ 200 ảnh gần nhất
   const allImages = useMemo(() => {
@@ -50,20 +51,12 @@ export default function PhotoGrid() {
     // eslint-disable-next-line
   }, [])
 
-  // Infinite scroll
-  const onScroll = useCallback(() => {
-    if (loading) return
-    if (!loaderRef.current) return
-    const rect = loaderRef.current.getBoundingClientRect()
-    if (rect.top < window.innerHeight) {
+  // Fetch more when loaderRef in view
+  useEffect(() => {
+    if (inView && !loading) {
       fetchRandomPhotos(PAGE_SIZE)
     }
-  }, [loading, fetchRandomPhotos])
-
-  useEffect(() => {
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [onScroll])
+  }, [inView, loading, fetchRandomPhotos])
 
   if (!photos || photos.length === 0) {
     return (
