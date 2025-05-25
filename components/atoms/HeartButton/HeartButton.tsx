@@ -1,4 +1,4 @@
-import { Heart } from '@/components/icons';
+import { Heart } from '@/components/icons/custom';
 import { ButtonHTMLAttributes } from 'react';
 
 interface HeartButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

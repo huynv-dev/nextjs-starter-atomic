@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Room } from '@/types/room';
 import { Image } from '@/components/atoms/Image';
-import { Heart } from '@/components/icons';
+import { Heart } from '@/components/icons/custom';
 import { useState } from 'react';
 
 interface RoomCardProps {

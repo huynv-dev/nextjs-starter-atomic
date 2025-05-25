@@ -1,5 +1,5 @@
 export * from './types';
-export * from './Heart';
+export * from './custom/Heart';
 export * from './Search';
 export * from './Menu';
 export * from './User';
