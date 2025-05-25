@@ -12,6 +12,7 @@ interface ImageProps {
   priority?: boolean;
   objectFit?: 'contain' | 'cover' | 'fill';
   quality?: number;
+  aspectRatio?: string;
 }
 
 const shimmer = (w: number, h: number) => `
@@ -42,7 +43,8 @@ export const Image = ({
   className,
   priority = false,
   objectFit = 'cover',
-  quality = 75
+  quality = 75,
+  aspectRatio = '16/9'
 }: ImageProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -82,7 +84,8 @@ export const Image = ({
           isLoading ? 'opacity-0' : 'opacity-100',
           objectFit === 'contain' && 'object-contain',
           objectFit === 'cover' && 'object-cover',
-          objectFit === 'fill' && 'object-fill'
+          objectFit === 'fill' && 'object-fill',
+          aspectRatio && `aspect-[${aspectRatio}]`
         )}
         quality={quality}
         priority={priority}

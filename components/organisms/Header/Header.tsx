@@ -21,7 +21,7 @@ export const Header = () => {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-300 ${isScrolled ? 'shadow-md' : 'border-b'}`}>
-      <div className="container mx-auto px-4">
+      <div className="container-fluid mx-auto px-12">
         {/* Top Bar - Only show when not scrolled */}
         <div className={`flex items-center justify-between h-20 transition-all duration-300 ${isScrolled ? 'h-0 opacity-0 overflow-hidden' : ''}`}>
           {/* Logo */}
