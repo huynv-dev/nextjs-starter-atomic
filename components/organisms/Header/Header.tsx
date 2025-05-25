@@ -18,20 +18,19 @@ export const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b">
-      <div className="container-fluid mx-auto px-12">
+    <header className={`transition-all duration-300 ${isScrolled ? 'fixed top-0 left-0 right-0 z-50 border-b shadow-sm' : ''}`} style={{ background: "linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%)" }}>
+      <div className={`container-fluid mx-auto px-12 transition-all duration-300 ${isScrolled ? '' : 'h-[200px]'}`}>
         {/* Top Bar */}
-        <div className="flex items-center justify-between h-20">
+        <div className={`flex items-center justify-between h-20`}>
           {/* Logo */}
           <Logo className="flex-shrink-0" />
 
           {/* Navigation - Desktop */}
           <div className="flex-1 flex justify-center">
             <nav className={`w-full lg:flex items-center justify-center space-x-10 text-sm font-medium transition-all duration-300 ${isScrolled ? 'opacity-0 invisible' : ''}`}>
-              <Link 
-                href="/places" 
+              <Link
+                href="/places"
                 className="flex items-center space-x-1 border-b-2 border-black py-2 hover:text-airbnb transition-colors"
               >
                 <Image
@@ -42,8 +41,8 @@ export const Header = () => {
                 />
                 <span>Nơi lưu trú</span>
               </Link>
-              <Link 
-                href="/experiences" 
+              <Link
+                href="/experiences"
                 className="flex items-center space-x-1 hover:text-airbnb transition-colors"
               >
                 <Image
@@ -54,8 +53,8 @@ export const Header = () => {
                 />
                 <span>Trải nghiệm</span>
               </Link>
-              <Link 
-                href="/online-experiences" 
+              <Link
+                href="/online-experiences"
                 className="flex items-center space-x-1 hover:text-airbnb transition-colors"
               >
                 <Image
@@ -70,33 +69,30 @@ export const Header = () => {
           </div>
 
           {/* User Menu */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
             <button className="hidden hover:bg-gray-100 px-4 py-2 rounded-full transition">
               Trở thành host
             </button>
-            <button className="hidden lg:flex items-center justify-center w-10 h-10 hover:bg-gray-100 rounded-full transition">
+            <button className="flex items-center border rounded-full p-2 hover:shadow-md transition bg-[#F2F2F2]">
               <Globe size={18} />
             </button>
-            <button 
-              className="flex items-center space-x-2 border rounded-full p-1 hover:shadow-md transition"
+            <button
+              className="flex items-center border rounded-full p-2 hover:shadow-md transition bg-[#F2F2F2]"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              <Menu size={18} className="ml-2" />
-              <div className="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
-                <User size={18} className="text-white" />
-              </div>
+              <Menu size={18} />
             </button>
           </div>
         </div>
 
         {/* Search Bar Container */}
         <div className="relative">
-          <div className={`absolute inset-x-0 transition-all duration-500 transform ${isScrolled ? '-translate-y-20' : 'translate-y-0'}`}>
+          <div className={`inset-x-0 transition-all duration-500 transform ${isScrolled ? 'absolute -translate-y-20' : 'translate-y-0'}`}>
             {/* Expanded Search Bar */}
             <div className={`w-full transition-all duration-500 ${isScrolled ? 'opacity-0 invisible scale-95' : 'opacity-100 visible scale-100'}`}>
               <SearchBar />
             </div>
-            
+
             {/* Collapsed Search Bar */}
             <div className={`absolute top-[50%] translate-y-[-50%] left-0 right-0 flex justify-center transition-all duration-500 ${isScrolled ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}`}>
               <button className="flex items-center space-x-4 border rounded-full py-2 px-6 shadow-md hover:shadow-lg transition-shadow bg-white">
@@ -126,17 +122,17 @@ export const Header = () => {
             <div className="bg-white h-full w-64 p-6 transform transition-transform duration-300">
               <div className="flex justify-between items-center mb-8">
                 <Logo size="sm" />
-                <button 
+                <button
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="p-2 hover:bg-gray-100 rounded-full transition"
                 >
                   <X size={24} />
                 </button>
               </div>
-              
+
               <nav className="space-y-6">
-                <Link 
-                  href="/places" 
+                <Link
+                  href="/places"
                   className="flex items-center space-x-3 hover:text-airbnb transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -148,8 +144,8 @@ export const Header = () => {
                   />
                   <span>Nơi lưu trú</span>
                 </Link>
-                <Link 
-                  href="/experiences" 
+                <Link
+                  href="/experiences"
                   className="flex items-center space-x-3 hover:text-airbnb transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -161,8 +157,8 @@ export const Header = () => {
                   />
                   <span>Trải nghiệm</span>
                 </Link>
-                <Link 
-                  href="/online-experiences" 
+                <Link
+                  href="/online-experiences"
                   className="flex items-center space-x-3 hover:text-airbnb transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >

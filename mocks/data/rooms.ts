@@ -1834,5 +1834,1017 @@ export const rooms: Room[] = [
     cancellationPolicy: 'Nghiêm ngặt',
     cleaningFee: 500000,
     serviceFee: 250000
+  },
+  {
+    id: '43',
+    name: 'Căn hộ Vinhomes Marina',
+    location: 'Hải Phòng',
+    price: 1900000,
+    pricePerNight: 1900000,
+    squareMeters: 75,
+    image: 'https://picsum.photos/seed/room43/800/600',
+    images: [
+      'https://picsum.photos/seed/room43-1/800/600',
+      'https://picsum.photos/seed/room43-2/800/600',
+      'https://picsum.photos/seed/room43-3/800/600'
+    ],
+    rating: 4.88,
+    numReviews: 134,
+    description: 'Căn hộ hiện đại view vịnh Hạ Long, nội thất cao cấp.',
+    maxGuests: 4,
+    bedrooms: 2,
+    beds: 2,
+    bathrooms: 2,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi',
+      'Gym',
+      'BBQ',
+      'Công viên',
+      'Bến du thuyền',
+      'Bảo vệ 24/7'
+    ],
+    host: {
+      name: 'Minh Khang',
+      avatar: 'https://picsum.photos/seed/host43/64/64',
+      isSuperHost: false
+    },
+    coordinates: {
+      lat: 20.836_789,
+      lng: 106.995_678
+    },
+    instantBook: true,
+    cancellationPolicy: 'Linh hoạt',
+    cleaningFee: 180000,
+    serviceFee: 90000
+  },
+  {
+    id: '44',
+    name: 'Biệt thự Hội An Riverside',
+    location: 'Hội An',
+    price: 3200000,
+    pricePerNight: 3200000,
+    squareMeters: 180,
+    image: 'https://picsum.photos/seed/room44/800/600',
+    images: [
+      'https://picsum.photos/seed/room44-1/800/600',
+      'https://picsum.photos/seed/room44-2/800/600',
+      'https://picsum.photos/seed/room44-3/800/600'
+    ],
+    rating: 4.95,
+    numReviews: 167,
+    description: 'Biệt thự phong cách Đông Dương bên sông Thu Bồn.',
+    maxGuests: 8,
+    bedrooms: 4,
+    beds: 4,
+    bathrooms: 3,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi riêng',
+      'Vườn',
+      'BBQ',
+      'Xe đạp',
+      'Tour phố cổ',
+      'Lớp nấu ăn'
+    ],
+    host: {
+      name: 'Thu Trang',
+      avatar: 'https://picsum.photos/seed/host44/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 15.877_890,
+      lng: 108.326_789
+    },
+    instantBook: false,
+    cancellationPolicy: 'Nghiêm ngặt',
+    cleaningFee: 300000,
+    serviceFee: 150000
+  },
+  {
+    id: '45',
+    name: 'Căn hộ Mipec Riverside',
+    location: 'Hà Nội',
+    price: 2100000,
+    pricePerNight: 2100000,
+    squareMeters: 90,
+    image: 'https://picsum.photos/seed/room45/800/600',
+    images: [
+      'https://picsum.photos/seed/room45-1/800/600',
+      'https://picsum.photos/seed/room45-2/800/600',
+      'https://picsum.photos/seed/room45-3/800/600'
+    ],
+    rating: 4.92,
+    numReviews: 145,
+    description: 'Căn hộ cao cấp view sông Hồng với nội thất sang trọng.',
+    maxGuests: 5,
+    bedrooms: 2,
+    beds: 3,
+    bathrooms: 2,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi',
+      'Gym',
+      'Spa',
+      'Tennis',
+      'Nhà hàng',
+      'Bảo vệ 24/7'
+    ],
+    host: {
+      name: 'Hoàng Nam',
+      avatar: 'https://picsum.photos/seed/host45/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 21.023_456,
+      lng: 105.856_789
+    },
+    instantBook: true,
+    cancellationPolicy: 'Linh hoạt',
+    cleaningFee: 200000,
+    serviceFee: 100000
+  },
+  {
+    id: '46',
+    name: 'Biệt thự Tam Đảo Golf Resort',
+    location: 'Vĩnh Phúc',
+    price: 4500000,
+    pricePerNight: 4500000,
+    squareMeters: 250,
+    image: 'https://picsum.photos/seed/room46/800/600',
+    images: [
+      'https://picsum.photos/seed/room46-1/800/600',
+      'https://picsum.photos/seed/room46-2/800/600',
+      'https://picsum.photos/seed/room46-3/800/600'
+    ],
+    rating: 4.96,
+    numReviews: 156,
+    description: 'Biệt thự sang trọng trong quần thể sân golf với view núi tuyệt đẹp.',
+    maxGuests: 10,
+    bedrooms: 5,
+    beds: 5,
+    bathrooms: 4,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi riêng',
+      'Golf',
+      'Tennis',
+      'Spa',
+      'Nhà hàng',
+      'Phòng xông hơi'
+    ],
+    host: {
+      name: 'Quang Dũng',
+      avatar: 'https://picsum.photos/seed/host46/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 21.456_789,
+      lng: 105.645_678
+    },
+    instantBook: false,
+    cancellationPolicy: 'Nghiêm ngặt',
+    cleaningFee: 400000,
+    serviceFee: 200000
+  },
+  {
+    id: '47',
+    name: 'Căn hộ Watermark Westlake',
+    location: 'Hà Nội',
+    price: 3800000,
+    pricePerNight: 3800000,
+    squareMeters: 120,
+    image: 'https://picsum.photos/seed/room47/800/600',
+    images: [
+      'https://picsum.photos/seed/room47-1/800/600',
+      'https://picsum.photos/seed/room47-2/800/600',
+      'https://picsum.photos/seed/room47-3/800/600'
+    ],
+    rating: 4.94,
+    numReviews: 178,
+    description: 'Căn hộ cao cấp view Hồ Tây với thiết kế hiện đại sang trọng.',
+    maxGuests: 6,
+    bedrooms: 3,
+    beds: 3,
+    bathrooms: 2,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi',
+      'Gym',
+      'Spa',
+      'Wine bar',
+      'Nhà hàng Âu',
+      'Concierge'
+    ],
+    host: {
+      name: 'Mai Linh',
+      avatar: 'https://picsum.photos/seed/host47/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 21.058_901,
+      lng: 105.823_456
+    },
+    instantBook: false,
+    cancellationPolicy: 'Nghiêm ngặt',
+    cleaningFee: 350000,
+    serviceFee: 180000
+  },
+  {
+    id: '48',
+    name: 'Nhà vườn Mê Linh',
+    location: 'Hà Nội',
+    price: 2500000,
+    pricePerNight: 2500000,
+    squareMeters: 300,
+    image: 'https://picsum.photos/seed/room48/800/600',
+    images: [
+      'https://picsum.photos/seed/room48-1/800/600',
+      'https://picsum.photos/seed/room48-2/800/600',
+      'https://picsum.photos/seed/room48-3/800/600'
+    ],
+    rating: 4.87,
+    numReviews: 134,
+    description: 'Nhà vườn rộng rãi với không gian xanh và hồ cá Koi.',
+    maxGuests: 8,
+    bedrooms: 4,
+    beds: 4,
+    bathrooms: 3,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Vườn Nhật',
+      'Hồ cá Koi',
+      'BBQ',
+      'Sân tennis',
+      'Nhà hàng',
+      'Karaoke'
+    ],
+    host: {
+      name: 'Anh Tuấn',
+      avatar: 'https://picsum.photos/seed/host48/64/64',
+      isSuperHost: false
+    },
+    coordinates: {
+      lat: 21.123_456,
+      lng: 105.734_567
+    },
+    instantBook: true,
+    cancellationPolicy: 'Linh hoạt',
+    cleaningFee: 250000,
+    serviceFee: 120000
+  },
+  {
+    id: '49',
+    name: 'Căn hộ The Matrix One',
+    location: 'Hà Nội',
+    price: 2200000,
+    pricePerNight: 2200000,
+    squareMeters: 85,
+    image: 'https://picsum.photos/seed/room49/800/600',
+    images: [
+      'https://picsum.photos/seed/room49-1/800/600',
+      'https://picsum.photos/seed/room49-2/800/600',
+      'https://picsum.photos/seed/room49-3/800/600'
+    ],
+    rating: 4.91,
+    numReviews: 145,
+    description: 'Căn hộ thông minh với view panorama thành phố.',
+    maxGuests: 4,
+    bedrooms: 2,
+    beds: 2,
+    bathrooms: 2,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi',
+      'Gym',
+      'Spa',
+      'Rooftop bar',
+      'Smart home',
+      'Bảo vệ 24/7'
+    ],
+    host: {
+      name: 'Thanh Thảo',
+      avatar: 'https://picsum.photos/seed/host49/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 21.016_789,
+      lng: 105.789_012
+    },
+    instantBook: true,
+    cancellationPolicy: 'Linh hoạt',
+    cleaningFee: 200000,
+    serviceFee: 100000
+  },
+  {
+    id: '50',
+    name: 'Biệt thự The Harmony Resort',
+    location: 'Hòa Bình',
+    price: 6000000,
+    pricePerNight: 6000000,
+    squareMeters: 400,
+    image: 'https://picsum.photos/seed/room50/800/600',
+    images: [
+      'https://picsum.photos/seed/room50-1/800/600',
+      'https://picsum.photos/seed/room50-2/800/600',
+      'https://picsum.photos/seed/room50-3/800/600'
+    ],
+    rating: 4.98,
+    numReviews: 167,
+    description: 'Biệt thự nghỉ dưỡng cao cấp với view núi và thác nước riêng.',
+    maxGuests: 12,
+    bedrooms: 6,
+    beds: 6,
+    bathrooms: 5,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi vô cực',
+      'Thác nước',
+      'Spa',
+      'Yoga studio',
+      'Nhà hàng hữu cơ',
+      'Helipad'
+    ],
+    host: {
+      name: 'Gia Bảo',
+      avatar: 'https://picsum.photos/seed/host50/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 20.812_345,
+      lng: 105.345_678
+    },
+    instantBook: false,
+    cancellationPolicy: 'Nghiêm ngặt',
+    cleaningFee: 600000,
+    serviceFee: 300000
+  },
+  {
+    id: '51',
+    name: 'Căn hộ Sun Marina Town',
+    location: 'Hạ Long',
+    price: 2800000,
+    pricePerNight: 2800000,
+    squareMeters: 95,
+    image: 'https://picsum.photos/seed/room51/800/600',
+    images: [
+      'https://picsum.photos/seed/room51-1/800/600',
+      'https://picsum.photos/seed/room51-2/800/600',
+      'https://picsum.photos/seed/room51-3/800/600'
+    ],
+    rating: 4.93,
+    numReviews: 156,
+    description: 'Căn hộ cao cấp view vịnh Hạ Long với nội thất sang trọng.',
+    maxGuests: 6,
+    bedrooms: 3,
+    beds: 3,
+    bathrooms: 2,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi vô cực',
+      'Gym',
+      'Spa',
+      'Bar',
+      'Tour vịnh',
+      'Dịch vụ phòng'
+    ],
+    host: {
+      name: 'Minh Quân',
+      avatar: 'https://picsum.photos/seed/host51/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 20.958_901,
+      lng: 107.045_678
+    },
+    instantBook: true,
+    cancellationPolicy: 'Linh hoạt',
+    cleaningFee: 250000,
+    serviceFee: 120000
+  },
+  {
+    id: '52',
+    name: 'Biệt thự Banyan Tree Lăng Cô',
+    location: 'Huế',
+    price: 8500000,
+    pricePerNight: 8500000,
+    squareMeters: 350,
+    image: 'https://picsum.photos/seed/room52/800/600',
+    images: [
+      'https://picsum.photos/seed/room52-1/800/600',
+      'https://picsum.photos/seed/room52-2/800/600',
+      'https://picsum.photos/seed/room52-3/800/600'
+    ],
+    rating: 4.99,
+    numReviews: 189,
+    description: 'Biệt thự sang trọng bậc nhất với bãi biển riêng tại Lăng Cô.',
+    maxGuests: 8,
+    bedrooms: 4,
+    beds: 4,
+    bathrooms: 4,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi riêng',
+      'Golf',
+      'Spa',
+      'Nhà hàng Michelin',
+      'Bãi biển riêng',
+      'Butler'
+    ],
+    host: {
+      name: 'Quốc Bảo',
+      avatar: 'https://picsum.photos/seed/host52/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 16.234_567,
+      lng: 108.123_456
+    },
+    instantBook: false,
+    cancellationPolicy: 'Nghiêm ngặt',
+    cleaningFee: 800000,
+    serviceFee: 400000
+  },
+  {
+    id: '53',
+    name: 'Căn hộ The Marq',
+    location: 'Hồ Chí Minh',
+    price: 4200000,
+    pricePerNight: 4200000,
+    squareMeters: 130,
+    image: 'https://picsum.photos/seed/room53/800/600',
+    images: [
+      'https://picsum.photos/seed/room53-1/800/600',
+      'https://picsum.photos/seed/room53-2/800/600',
+      'https://picsum.photos/seed/room53-3/800/600'
+    ],
+    rating: 4.95,
+    numReviews: 145,
+    description: 'Căn hộ siêu sang tại trung tâm Quận 1 với nội thất cao cấp.',
+    maxGuests: 4,
+    bedrooms: 2,
+    beds: 2,
+    bathrooms: 2,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi',
+      'Gym',
+      'Spa',
+      'Wine cellar',
+      'Cigar lounge',
+      'Concierge'
+    ],
+    host: {
+      name: 'Thành Đạt',
+      avatar: 'https://picsum.photos/seed/host53/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 10.778_901,
+      lng: 106.701_234
+    },
+    instantBook: false,
+    cancellationPolicy: 'Nghiêm ngặt',
+    cleaningFee: 400000,
+    serviceFee: 200000
+  },
+  {
+    id: '54',
+    name: 'Biệt thự Sakana Resort',
+    location: 'Hòa Bình',
+    price: 3500000,
+    pricePerNight: 3500000,
+    squareMeters: 200,
+    image: 'https://picsum.photos/seed/room54/800/600',
+    images: [
+      'https://picsum.photos/seed/room54-1/800/600',
+      'https://picsum.photos/seed/room54-2/800/600',
+      'https://picsum.photos/seed/room54-3/800/600'
+    ],
+    rating: 4.92,
+    numReviews: 167,
+    description: 'Biệt thự nghỉ dưỡng phong cách Nhật với onsen riêng.',
+    maxGuests: 8,
+    bedrooms: 4,
+    beds: 4,
+    bathrooms: 3,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Onsen riêng',
+      'Vườn Zen',
+      'Nhà hàng Nhật',
+      'Trà đạo',
+      'Massage',
+      'Karaoke'
+    ],
+    host: {
+      name: 'Thu Hằng',
+      avatar: 'https://picsum.photos/seed/host54/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 20.817_890,
+      lng: 105.345_678
+    },
+    instantBook: true,
+    cancellationPolicy: 'Linh hoạt',
+    cleaningFee: 300000,
+    serviceFee: 150000
+  },
+  {
+    id: '55',
+    name: 'Căn hộ The River Thu Thiem',
+    location: 'Hồ Chí Minh',
+    price: 3800000,
+    pricePerNight: 3800000,
+    squareMeters: 110,
+    image: 'https://picsum.photos/seed/room55/800/600',
+    images: [
+      'https://picsum.photos/seed/room55-1/800/600',
+      'https://picsum.photos/seed/room55-2/800/600',
+      'https://picsum.photos/seed/room55-3/800/600'
+    ],
+    rating: 4.94,
+    numReviews: 178,
+    description: 'Căn hộ cao cấp view sông Sài Gòn tại Thủ Thiêm.',
+    maxGuests: 6,
+    bedrooms: 3,
+    beds: 3,
+    bathrooms: 2,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi',
+      'Gym',
+      'Spa',
+      'Sky bar',
+      'BBQ',
+      'Bảo vệ 24/7'
+    ],
+    host: {
+      name: 'Quang Minh',
+      avatar: 'https://picsum.photos/seed/host55/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 10.776_789,
+      lng: 106.723_456
+    },
+    instantBook: true,
+    cancellationPolicy: 'Linh hoạt',
+    cleaningFee: 350000,
+    serviceFee: 180000
+  },
+  {
+    id: '56',
+    name: 'Biệt thự Legacy Hill',
+    location: 'Hòa Bình',
+    price: 4500000,
+    pricePerNight: 4500000,
+    squareMeters: 280,
+    image: 'https://picsum.photos/seed/room56/800/600',
+    images: [
+      'https://picsum.photos/seed/room56-1/800/600',
+      'https://picsum.photos/seed/room56-2/800/600',
+      'https://picsum.photos/seed/room56-3/800/600'
+    ],
+    rating: 4.96,
+    numReviews: 145,
+    description: 'Biệt thự nghỉ dưỡng với view đồi và hồ nước.',
+    maxGuests: 10,
+    bedrooms: 5,
+    beds: 5,
+    bathrooms: 4,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi riêng',
+      'Tennis',
+      'Spa',
+      'BBQ',
+      'Vườn treo',
+      'Phòng chiếu phim'
+    ],
+    host: {
+      name: 'Hoàng Anh',
+      avatar: 'https://picsum.photos/seed/host56/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 20.819_567,
+      lng: 105.367_890
+    },
+    instantBook: false,
+    cancellationPolicy: 'Nghiêm ngặt',
+    cleaningFee: 400000,
+    serviceFee: 200000
+  },
+  {
+    id: '57',
+    name: 'Căn hộ Diamond Island',
+    location: 'Hồ Chí Minh',
+    price: 3200000,
+    pricePerNight: 3200000,
+    squareMeters: 100,
+    image: 'https://picsum.photos/seed/room57/800/600',
+    images: [
+      'https://picsum.photos/seed/room57-1/800/600',
+      'https://picsum.photos/seed/room57-2/800/600',
+      'https://picsum.photos/seed/room57-3/800/600'
+    ],
+    rating: 4.93,
+    numReviews: 167,
+    description: 'Căn hộ cao cấp trên đảo Kim Cương với view sông.',
+    maxGuests: 6,
+    bedrooms: 3,
+    beds: 3,
+    bathrooms: 2,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi',
+      'Gym',
+      'Spa',
+      'BBQ',
+      'Sân chơi',
+      'Bến du thuyền'
+    ],
+    host: {
+      name: 'Minh Tâm',
+      avatar: 'https://picsum.photos/seed/host57/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 10.778_901,
+      lng: 106.745_678
+    },
+    instantBook: true,
+    cancellationPolicy: 'Linh hoạt',
+    cleaningFee: 300000,
+    serviceFee: 150000
+  },
+  {
+    id: '58',
+    name: 'Biệt thự Sunset Villas',
+    location: 'Phú Quốc',
+    price: 7500000,
+    pricePerNight: 7500000,
+    squareMeters: 320,
+    image: 'https://picsum.photos/seed/room58/800/600',
+    images: [
+      'https://picsum.photos/seed/room58-1/800/600',
+      'https://picsum.photos/seed/room58-2/800/600',
+      'https://picsum.photos/seed/room58-3/800/600'
+    ],
+    rating: 4.97,
+    numReviews: 189,
+    description: 'Biệt thự hướng biển với hồ bơi vô cực và bãi biển riêng.',
+    maxGuests: 10,
+    bedrooms: 5,
+    beds: 5,
+    bathrooms: 4,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi vô cực',
+      'Bãi biển riêng',
+      'Spa',
+      'BBQ',
+      'Bar',
+      'Butler'
+    ],
+    host: {
+      name: 'Quang Huy',
+      avatar: 'https://picsum.photos/seed/host58/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 10.289_567,
+      lng: 103.984_567
+    },
+    instantBook: false,
+    cancellationPolicy: 'Nghiêm ngặt',
+    cleaningFee: 700000,
+    serviceFee: 350000
+  },
+  {
+    id: '59',
+    name: 'Căn hộ Central Residence',
+    location: 'Đà Nẵng',
+    price: 2500000,
+    pricePerNight: 2500000,
+    squareMeters: 85,
+    image: 'https://picsum.photos/seed/room59/800/600',
+    images: [
+      'https://picsum.photos/seed/room59-1/800/600',
+      'https://picsum.photos/seed/room59-2/800/600',
+      'https://picsum.photos/seed/room59-3/800/600'
+    ],
+    rating: 4.91,
+    numReviews: 156,
+    description: 'Căn hộ cao cấp view biển Mỹ Khê và cầu Rồng.',
+    maxGuests: 4,
+    bedrooms: 2,
+    beds: 2,
+    bathrooms: 2,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi',
+      'Gym',
+      'Spa',
+      'BBQ',
+      'Công viên',
+      'Bảo vệ 24/7'
+    ],
+    host: {
+      name: 'Thu Thảo',
+      avatar: 'https://picsum.photos/seed/host59/64/64',
+      isSuperHost: false
+    },
+    coordinates: {
+      lat: 16.047_890,
+      lng: 108.234_567
+    },
+    instantBook: true,
+    cancellationPolicy: 'Linh hoạt',
+    cleaningFee: 250000,
+    serviceFee: 120000
+  },
+  {
+    id: '60',
+    name: 'Biệt thự Emerald Bay',
+    location: 'Nha Trang',
+    price: 6500000,
+    pricePerNight: 6500000,
+    squareMeters: 300,
+    image: 'https://picsum.photos/seed/room60/800/600',
+    images: [
+      'https://picsum.photos/seed/room60-1/800/600',
+      'https://picsum.photos/seed/room60-2/800/600',
+      'https://picsum.photos/seed/room60-3/800/600'
+    ],
+    rating: 4.98,
+    numReviews: 178,
+    description: 'Biệt thự sang trọng với view vịnh Nha Trang tuyệt đẹp.',
+    maxGuests: 8,
+    bedrooms: 4,
+    beds: 4,
+    bathrooms: 4,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi riêng',
+      'Gym',
+      'Spa',
+      'Wine cellar',
+      'Bãi biển riêng',
+      'Helipad'
+    ],
+    host: {
+      name: 'Gia Huy',
+      avatar: 'https://picsum.photos/seed/host60/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 12.235_678,
+      lng: 109.196_789
+    },
+    instantBook: false,
+    cancellationPolicy: 'Nghiêm ngặt',
+    cleaningFee: 600000,
+    serviceFee: 300000
+  },
+  {
+    id: '61',
+    name: 'Căn hộ Sky Villa',
+    location: 'Đà Nẵng',
+    price: 5500000,
+    pricePerNight: 5500000,
+    squareMeters: 150,
+    image: 'https://picsum.photos/seed/room61/800/600',
+    images: [
+      'https://picsum.photos/seed/room61-1/800/600',
+      'https://picsum.photos/seed/room61-2/800/600',
+      'https://picsum.photos/seed/room61-3/800/600'
+    ],
+    rating: 4.96,
+    numReviews: 167,
+    description: 'Penthouse sang trọng với view toàn cảnh thành phố và biển.',
+    maxGuests: 6,
+    bedrooms: 3,
+    beds: 3,
+    bathrooms: 3,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi riêng',
+      'Gym',
+      'Spa',
+      'Bar',
+      'BBQ',
+      'Butler'
+    ],
+    host: {
+      name: 'Quang Dũng',
+      avatar: 'https://picsum.photos/seed/host61/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 16.048_901,
+      lng: 108.234_567
+    },
+    instantBook: false,
+    cancellationPolicy: 'Nghiêm ngặt',
+    cleaningFee: 500000,
+    serviceFee: 250000
+  },
+  {
+    id: '62',
+    name: 'Biệt thự Zen Garden',
+    location: 'Đà Lạt',
+    price: 4800000,
+    pricePerNight: 4800000,
+    squareMeters: 220,
+    image: 'https://picsum.photos/seed/room62/800/600',
+    images: [
+      'https://picsum.photos/seed/room62-1/800/600',
+      'https://picsum.photos/seed/room62-2/800/600',
+      'https://picsum.photos/seed/room62-3/800/600'
+    ],
+    rating: 4.95,
+    numReviews: 145,
+    description: 'Biệt thự phong cách Nhật với vườn thiền và suối nước.',
+    maxGuests: 8,
+    bedrooms: 4,
+    beds: 4,
+    bathrooms: 3,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Onsen',
+      'Vườn thiền',
+      'Trà đạo',
+      'Yoga',
+      'Massage',
+      'Phòng thiền'
+    ],
+    host: {
+      name: 'Thanh Mai',
+      avatar: 'https://picsum.photos/seed/host62/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 11.946_789,
+      lng: 108.445_678
+    },
+    instantBook: false,
+    cancellationPolicy: 'Nghiêm ngặt',
+    cleaningFee: 450000,
+    serviceFee: 220000
+  },
+  {
+    id: '63',
+    name: 'Căn hộ Ocean Vista',
+    location: 'Phan Thiết',
+    price: 2800000,
+    pricePerNight: 2800000,
+    squareMeters: 95,
+    image: 'https://picsum.photos/seed/room63/800/600',
+    images: [
+      'https://picsum.photos/seed/room63-1/800/600',
+      'https://picsum.photos/seed/room63-2/800/600',
+      'https://picsum.photos/seed/room63-3/800/600'
+    ],
+    rating: 4.89,
+    numReviews: 178,
+    description: 'Căn hộ cao cấp view biển tại Sea Links City.',
+    maxGuests: 6,
+    bedrooms: 3,
+    beds: 3,
+    bathrooms: 2,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi',
+      'Gym',
+      'Golf',
+      'Tennis',
+      'Bãi biển',
+      'BBQ'
+    ],
+    host: {
+      name: 'Minh Hiếu',
+      avatar: 'https://picsum.photos/seed/host63/64/64',
+      isSuperHost: false
+    },
+    coordinates: {
+      lat: 10.934_567,
+      lng: 108.287_890
+    },
+    instantBook: true,
+    cancellationPolicy: 'Linh hoạt',
+    cleaningFee: 250000,
+    serviceFee: 120000
+  },
+  {
+    id: '64',
+    name: 'Biệt thự The Dune',
+    location: 'Phan Thiết',
+    price: 8500000,
+    pricePerNight: 8500000,
+    squareMeters: 350,
+    image: 'https://picsum.photos/seed/room64/800/600',
+    images: [
+      'https://picsum.photos/seed/room64-1/800/600',
+      'https://picsum.photos/seed/room64-2/800/600',
+      'https://picsum.photos/seed/room64-3/800/600'
+    ],
+    rating: 4.97,
+    numReviews: 156,
+    description: 'Biệt thự sang trọng trên đồi cát với view biển tuyệt đẹp.',
+    maxGuests: 10,
+    bedrooms: 5,
+    beds: 5,
+    bathrooms: 5,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi riêng',
+      'Spa',
+      'Bar',
+      'BBQ',
+      'Bãi biển riêng',
+      'Butler'
+    ],
+    host: {
+      name: 'Quốc Khánh',
+      avatar: 'https://picsum.photos/seed/host64/64/64',
+      isSuperHost: true
+    },
+    coordinates: {
+      lat: 10.935_678,
+      lng: 108.288_901
+    },
+    instantBook: false,
+    cancellationPolicy: 'Nghiêm ngặt',
+    cleaningFee: 800000,
+    serviceFee: 400000
+  },
+  {
+    id: '65',
+    name: 'Căn hộ The Sailing',
+    location: 'Quy Nhơn',
+    price: 2200000,
+    pricePerNight: 2200000,
+    squareMeters: 80,
+    image: 'https://picsum.photos/seed/room65/800/600',
+    images: [
+      'https://picsum.photos/seed/room65-1/800/600',
+      'https://picsum.photos/seed/room65-2/800/600',
+      'https://picsum.photos/seed/room65-3/800/600'
+    ],
+    rating: 4.92,
+    numReviews: 134,
+    description: 'Căn hộ hiện đại view vịnh Quy Nhơn tuyệt đẹp.',
+    maxGuests: 4,
+    bedrooms: 2,
+    beds: 2,
+    bathrooms: 2,
+    amenities: [
+      'Wifi',
+      'Bếp',
+      'Hồ bơi',
+      'Gym',
+      'BBQ',
+      'Công viên',
+      'Bãi biển',
+      'Bảo vệ 24/7'
+    ],
+    host: {
+      name: 'Thu Hương',
+      avatar: 'https://picsum.photos/seed/host65/64/64',
+      isSuperHost: false
+    },
+    coordinates: {
+      lat: 13.756_789,
+      lng: 109.223_456
+    },
+    instantBook: true,
+    cancellationPolicy: 'Linh hoạt',
+    cleaningFee: 200000,
+    serviceFee: 100000
   }
 ]; 

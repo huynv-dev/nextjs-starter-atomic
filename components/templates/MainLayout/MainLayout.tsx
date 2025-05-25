@@ -8,7 +8,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="pt-36">
+      <main>
         {children}
       </main>
     </div>

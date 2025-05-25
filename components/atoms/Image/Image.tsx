@@ -1,18 +1,10 @@
 'use client';
 import { useState } from 'react';
-import NextImage from 'next/image';
+import NextImage, { ImageProps as NextImageProps } from 'next/image';
 import clsx from 'clsx';
 
-interface ImageProps {
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
-  className?: string;
-  priority?: boolean;
-  objectFit?: 'contain' | 'cover' | 'fill';
-  quality?: number;
-  aspectRatio?: string;
+interface ImageProps extends Omit<NextImageProps, 'placeholder'> {
+  withBlur?: boolean;
 }
 
 const shimmer = (w: number, h: number) => `
@@ -35,19 +27,12 @@ const toBase64 = (str: string) =>
     ? Buffer.from(str).toString('base64')
     : window.btoa(str);
 
-export const Image = ({
-  src,
-  alt,
-  width = 300,
-  height = 200,
-  className,
-  priority = false,
-  objectFit = 'cover',
-  quality = 75,
-  aspectRatio = '16/9'
-}: ImageProps) => {
+export const Image = ({ withBlur = false, ...props }: ImageProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+
+  // Chỉ sử dụng placeholder blur cho ảnh lớn hơn 40x40
+  const shouldUseBlur = withBlur && (props.width as number) >= 40 && (props.height as number) >= 40;
 
   const handleLoad = () => {
     setIsLoading(false);
@@ -63,9 +48,9 @@ export const Image = ({
       <div 
         className={clsx(
           'bg-gray-200 flex items-center justify-center',
-          className
+          props.className
         )}
-        style={{ width, height }}
+        style={{ width: props.width, height: props.height }}
       >
         <span className="text-gray-400">Failed to load image</span>
       </div>
@@ -73,33 +58,25 @@ export const Image = ({
   }
 
   return (
-    <div className={clsx('relative overflow-hidden', className)}>
+    <div className={clsx('relative overflow-hidden')}>
       <NextImage
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        className={clsx(
-          'transition-opacity duration-300 ease-in-out',
-          isLoading ? 'opacity-0' : 'opacity-100',
-          objectFit === 'contain' && 'object-contain',
-          objectFit === 'cover' && 'object-cover',
-          objectFit === 'fill' && 'object-fill',
-          aspectRatio && `aspect-[${aspectRatio}]`
-        )}
-        quality={quality}
-        priority={priority}
-        placeholder="blur"
-        blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(width, height))}`}
-        onLoadingComplete={handleLoad}
+        {...props}
+        className={`
+          ${props.className || ''}
+          ${isLoading ? 'scale-110 blur-sm' : 'scale-100 blur-0'}
+          transition duration-200
+        `}
+        onLoad={handleLoad}
         onError={handleError}
+        placeholder={shouldUseBlur ? 'blur' : undefined}
+        blurDataURL={shouldUseBlur ? 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkMj4xLy4vLi4+QT5APj49QT42Pi4uRkFBQVlZWUJBQkFBQUFBQUH/2wBDAR0XFyAeIBokHiA6KT4pOkFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUH/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=' : undefined}
       />
       
       {isLoading && (
         <div 
           className="absolute inset-0 bg-gray-200 animate-pulse"
           style={{ 
-            backgroundImage: `url(data:image/svg+xml;base64,${toBase64(shimmer(width, height))})` 
+            backgroundImage: `url(data:image/svg+xml;base64,${toBase64(shimmer(props.width as number, props.height as number))})` 
           }}
         />
       )}
