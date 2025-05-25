@@ -20,56 +20,58 @@ export const Header = () => {
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-300 ${isScrolled ? 'shadow-md' : 'border-b'}`}>
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b">
       <div className="container-fluid mx-auto px-12">
-        {/* Top Bar - Only show when not scrolled */}
-        <div className={`flex items-center justify-between h-20 transition-all duration-300 ${isScrolled ? 'h-0 opacity-0 overflow-hidden' : ''}`}>
+        {/* Top Bar */}
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Logo className="flex-shrink-0" />
 
           {/* Navigation - Desktop */}
-          <nav className={`hidden lg:flex items-center space-x-10 text-sm font-medium transition-all duration-300 ${isScrolled ? 'opacity-0 invisible h-0' : ''}`}>
-            <Link 
-              href="/places" 
-              className="flex items-center space-x-1 border-b-2 border-black py-2 hover:text-airbnb transition-colors"
-            >
-              <Image
-                src="/images/places.png"
-                alt="Places"
-                width={36}
-                height={36}
-              />
-              <span>Nơi lưu trú</span>
-            </Link>
-            <Link 
-              href="/experiences" 
-              className="flex items-center space-x-1 hover:text-airbnb transition-colors"
-            >
-              <Image
-                src="/images/experiences.png"
-                alt="Experiences"
-                width={36}
-                height={36}
-              />
-              <span>Trải nghiệm</span>
-            </Link>
-            <Link 
-              href="/online-experiences" 
-              className="flex items-center space-x-1 hover:text-airbnb transition-colors"
-            >
-              <Image
-                src="/images/online-exp.png"
-                alt="Online Experiences"
-                width={36}
-                height={36}
-              />
-              <span>Dịch vụ</span>
-            </Link>
-          </nav>
+          <div className="flex-1 flex justify-center">
+            <nav className={`w-full lg:flex items-center justify-center space-x-10 text-sm font-medium transition-all duration-300 ${isScrolled ? 'opacity-0 invisible' : ''}`}>
+              <Link 
+                href="/places" 
+                className="flex items-center space-x-1 border-b-2 border-black py-2 hover:text-airbnb transition-colors"
+              >
+                <Image
+                  src="/images/places.png"
+                  alt="Places"
+                  width={36}
+                  height={36}
+                />
+                <span>Nơi lưu trú</span>
+              </Link>
+              <Link 
+                href="/experiences" 
+                className="flex items-center space-x-1 hover:text-airbnb transition-colors"
+              >
+                <Image
+                  src="/images/experiences.png"
+                  alt="Experiences"
+                  width={36}
+                  height={36}
+                />
+                <span>Trải nghiệm</span>
+              </Link>
+              <Link 
+                href="/online-experiences" 
+                className="flex items-center space-x-1 hover:text-airbnb transition-colors"
+              >
+                <Image
+                  src="/images/online-exp.png"
+                  alt="Online Experiences"
+                  width={36}
+                  height={36}
+                />
+                <span>Dịch vụ</span>
+              </Link>
+            </nav>
+          </div>
 
           {/* User Menu */}
           <div className="flex items-center space-x-4">
-            <button className="hidden lg:block hover:bg-gray-100 px-4 py-2 rounded-full transition">
+            <button className="hidden hover:bg-gray-100 px-4 py-2 rounded-full transition">
               Trở thành host
             </button>
             <button className="hidden lg:flex items-center justify-center w-10 h-10 hover:bg-gray-100 rounded-full transition">
@@ -88,31 +90,33 @@ export const Header = () => {
         </div>
 
         {/* Search Bar Container */}
-        <div className={`py-4 transition-all duration-300 ${isScrolled ? 'py-2' : ''}`}>
-          {/* Collapsed Search Bar */}
-          <div className={`flex justify-center ${isScrolled ? 'block' : 'hidden'}`}>
-            <button className="flex items-center space-x-4 border rounded-full py-3 px-6 shadow-md hover:shadow-lg transition-shadow">
-              <div className="flex items-center space-x-3 border-r pr-4">
-                <Search size={16} />
-                <span className="text-sm font-medium">Địa điểm bất kỳ</span>
-              </div>
-              <div className="flex items-center space-x-3 border-r pr-4">
-                <CalendarDays size={16} />
-                <span className="text-sm font-medium">Thời gian bất kỳ</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Users size={16} />
-                <span className="text-sm font-medium">Thêm khách</span>
-              </div>
-              <div className="bg-airbnb text-white p-2 rounded-full">
-                <Search size={16} />
-              </div>
-            </button>
-          </div>
-
-          {/* Expanded Search Bar - Only show when not scrolled */}
-          <div className={`transition-all duration-300 ${isScrolled ? 'hidden' : 'block'}`}>
-            <SearchBar />
+        <div className="relative">
+          <div className={`absolute inset-x-0 transition-all duration-500 transform ${isScrolled ? '-translate-y-20' : 'translate-y-0'}`}>
+            {/* Expanded Search Bar */}
+            <div className={`w-full transition-all duration-500 ${isScrolled ? 'opacity-0 invisible scale-95' : 'opacity-100 visible scale-100'}`}>
+              <SearchBar />
+            </div>
+            
+            {/* Collapsed Search Bar */}
+            <div className={`absolute top-[50%] translate-y-[-50%] left-0 right-0 flex justify-center transition-all duration-500 ${isScrolled ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}`}>
+              <button className="flex items-center space-x-4 border rounded-full py-2 px-6 shadow-md hover:shadow-lg transition-shadow bg-white">
+                <div className="flex items-center space-x-3 border-r pr-4">
+                  <Search size={16} />
+                  <span className="text-sm font-medium">Địa điểm bất kỳ</span>
+                </div>
+                <div className="flex items-center space-x-3 border-r pr-4">
+                  <CalendarDays size={16} />
+                  <span className="text-sm font-medium">Thời gian bất kỳ</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Users size={16} />
+                  <span className="text-sm font-medium">Thêm khách</span>
+                </div>
+                <div className="bg-airbnb text-white p-2 rounded-full">
+                  <Search size={16} />
+                </div>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -171,10 +175,10 @@ export const Header = () => {
                   <span>Dịch vụ</span>
                 </Link>
                 <hr />
-                <button className="w-full text-left hover:text-airbnb transition-colors">
+                <button className="w-full text-left lg:hidden hover:text-airbnb transition-colors">
                   Trở thành host
                 </button>
-                <button className="w-full text-left hover:text-airbnb transition-colors">
+                <button className="w-full text-left lg:hidden hover:text-airbnb transition-colors">
                   Trợ giúp
                 </button>
                 <button className="w-full text-left hover:text-airbnb transition-colors">
