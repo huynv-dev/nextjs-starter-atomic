@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 :root {
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-base: 20px;
+  --radius-md: 24px;
+  --radius-lg: 30px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
   --foreground: #1a1a1a;
   --background: #ffffff;
 }
@@ -12,6 +19,10 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+body {
+  @apply font-sans;
 }
 
 body {
@@ -46,6 +57,6 @@ body {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
