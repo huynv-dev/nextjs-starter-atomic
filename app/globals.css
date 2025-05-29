@@ -60,3 +60,110 @@ body {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+@layer components {
+  .typography {
+    @apply text-base text-[var(--foreground)];
+  }
+  .typography-text-1 {
+    @apply text-4xl;
+  }
+  .typography-text-2 {
+    @apply text-3xl;
+  }
+  .typography-text-3 {
+    @apply text-2xl;
+  }
+  .typography-text-4 {
+    @apply text-xl;
+  }
+  .typography-text-5 {
+    @apply text-lg;
+  }
+  /* Title levels */
+  .typography-title-1 {
+    @apply text-4xl font-bold leading-tight;
+  }
+
+  .typography-title-2 {
+    @apply text-3xl font-semibold leading-snug;
+  }
+
+  .typography-title-3 {
+    @apply text-2xl font-semibold;
+  }
+
+  .typography-title-4 {
+    @apply text-xl font-medium;
+  }
+
+  .typography-title-5 {
+    @apply text-lg font-medium;
+  }
+
+  /* Variant styles */
+  .typography-text {
+    @apply text-base;
+  }
+
+  .typography-link {
+    @apply text-blue-600 hover:text-blue-500 underline cursor-pointer;
+  }
+
+  .typography-paragraph {
+    @apply text-base leading-relaxed;
+  }
+
+  .typography-code {
+    @apply font-mono bg-gray-100 px-1 py-0.5 rounded;
+  }
+
+  .typography-mark {
+    @apply bg-yellow-200 px-1 py-0.5 rounded;
+  }
+
+  .typography-keyboard {
+    @apply font-mono text-sm px-1 py-0.5 border rounded bg-gray-100 border-gray-300;
+  }
+
+  .typography-underline {
+    @apply underline;
+  }
+
+  .typography-delete {
+    @apply line-through;
+  }
+
+  .typography-strong {
+    @apply font-bold;
+  }
+
+  .typography-italic {
+    @apply italic;
+  }
+
+  .typography-disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* Color types */
+  .typography-primary {
+    @apply text-[var(--foreground)];
+  }
+
+  .typography-secondary {
+    @apply text-black;
+  }
+
+  .typography-success {
+    @apply text-green-600;
+  }
+
+  .typography-warning {
+    @apply text-yellow-600;
+  }
+
+  .typography-danger {
+    @apply text-red-600;
+  }
+}

@@ -20,7 +20,7 @@ describe('Button Component', () => {
     render(<Button>Default</Button>)
     const button = screen.getByRole('button')
     expect(button).toHaveClass('rounded-xl')
-    expect(button).toHaveClass('bg-gradient-to-r')
+    expect(button).toHaveClass('gradientButton')
     expect(button).not.toBeDisabled()
   })
 
@@ -93,7 +93,7 @@ describe('Button Component', () => {
   // Style variant tests
   it('applies correct styles for primary type', () => {
     render(<Button type="primary">Primary</Button>)
-    expect(screen.getByRole('button')).toHaveClass('bg-gradient-to-r')
+    expect(screen.getByRole('button')).toHaveClass('gradientButton')
   })
 
   it('applies correct styles for outline type', () => {

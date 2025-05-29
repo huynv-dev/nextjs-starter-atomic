@@ -6,6 +6,13 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  options: {
+    safelist: [
+      /^typography-/,
+      /^typography-title-/,
+      /^typography-text-/,
+    ],
+  },
   theme: {
     extend: {
       colors: {
@@ -13,7 +20,7 @@ export default {
         foreground: "var(--foreground)",
 
         muted: "#f5f5f5",
-        
+
         default: {
           DEFAULT: '#6b7280', // gray-500
           hover: '#4b5563',   // gray-600

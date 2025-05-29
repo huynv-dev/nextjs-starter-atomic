@@ -143,6 +143,7 @@ export function Button({
     if (loading) {
       const spinner = loadingIcon || (
         <svg
+          data-testid="loading-spinner"
           className="animate-spin h-4 w-4"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
