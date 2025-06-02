@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { Layout } from './Layout';
 import { Button } from '@/components/atoms/Button/Button';
-import { Menu } from 'lucide-react';
+import { BarChart, Bell, Database, FileText, Home, LaptopIcon, Menu, Settings, User, UserRound } from 'lucide-react';
+import { MenuItem } from './Sidebar';
 
 const { Header, Footer, Sidebar, Content } = Layout;
 
@@ -12,6 +13,10 @@ const meta: Meta<typeof Layout> = {
   component: Layout,
 };
 export default meta;
+
+
+
+
 
 export const BasicLayout = () => {
   const headerStyle = 'text-white text-center h-16 leading-[64px] bg-blue-500';
@@ -99,26 +104,60 @@ export const HeaderContentFooter = () => {
 
 export const SidebarWithToggle = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const menuItems: MenuItem[] = [
+    {
+      key: 'dashboard',
+      label: 'Dashboard',
+      icon: <Home className="w-4 h-4" />,
+    },
+    {
+      key: 'projects',
+      label: 'Projects',
+      icon: <FileText className="w-4 h-4" />,
+      children: [
+        { key: 'project1', label: 'Website Redesign', icon: <BarChart className="w-4 h-4" /> },
+        { key: 'project2', label: 'Mobile App', icon: <Database className="w-4 h-4" /> },
+        { key: 'project3', label: 'API Development', icon: <Settings className="w-4 h-4" /> },
+      ],
+    },
+    {
+      key: 'users',
+      label: 'Users',
+      icon: <User className="w-4 h-4" />,
+      children: [
+        { key: 'all-users', label: 'All Users' },
+        { key: 'active-users', label: 'Active Users' },
+        { key: 'inactive-users', label: 'Inactive Users' },
+      ],
+    },
+    {
+      key: 'analytics',
+      label: 'Analytics',
+      icon: <BarChart className="w-4 h-4" />,
+      children: [
+        { key: 'reports', label: 'Reports' },
+        { key: 'charts', label: 'Charts' },
+      ],
+    },
+    {
+      key: 'settings',
+      label: 'Settings',
+      icon: <Settings className="w-4 h-4" />,
+    },
+  ];
 
   return (
     <div className="flex h-screen">
       <Sidebar
-        collapsible
         collapsed={collapsed}
         onCollapse={(c) => setCollapsed(c)}
         className="bg-gray-800 text-white"
         width={200}
         collapsedWidth={80}
-      >
-        <ul className="space-y-4">
-          <li className="hover:text-blue-400 cursor-pointer">nav 1</li>
-          <li className="hover:text-blue-400 cursor-pointer">nav 2</li>
-          <li className="hover:text-blue-400 cursor-pointer">nav 3</li>
-        </ul>
-      </Sidebar>
-
+        menu={menuItems}
+      />
       <div className="flex flex-col flex-1 min-h-screen">
-        <header className="flex items-center h-16 px-4 border-b bg-white">
+        <Header className="flex items-center h-16 px-4 border-b bg-white">
           <Button
             icon={<Menu className="w-5 h-5" />}
             type="ghost"
@@ -126,16 +165,12 @@ export const SidebarWithToggle = () => {
             onClick={() => setCollapsed(!collapsed)}
             className="w-10 h-10 p-0"
           >
-
-
-
           </Button>
           <h1 className="ml-4 text-lg font-semibold">Header</h1>
-        </header>
-
-        <main className="flex-1 p-6 bg-gray-50">
+        </Header>
+        <Content className="flex-1 p-6 bg-gray-50">
           <div className="bg-white p-6 rounded-lg shadow">Content</div>
-        </main>
+        </Content>
       </div>
     </div>
   );
