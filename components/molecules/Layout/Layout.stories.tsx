@@ -4,6 +4,8 @@ import { Layout } from './Layout';
 import { Button } from '@/components/atoms/Button/Button';
 import { BarChart, Bell, Database, FileText, Home, LaptopIcon, Menu, Settings, User, UserRound } from 'lucide-react';
 import { MenuItem } from './Sidebar';
+import { Row } from '../Grid/Row';
+import { Col } from '../Grid/Col';
 
 const { Header, Footer, Sidebar, Content } = Layout;
 
@@ -21,7 +23,7 @@ export default meta;
 export const BasicLayout = () => {
   const headerStyle = 'text-white text-center h-16 leading-[64px] bg-blue-500';
   const contentStyle = 'text-white text-center min-h-[120px] leading-[120px] bg-blue-800';
-  const sidebarStyle = 'text-white text-center leading-[120px] bg-blue-600';
+  const sidebarStyle = 'text-white text-center leading-[120px] bg-blue-600 h-full';
   const footerStyle = 'text-white text-center h-12 leading-[48px] bg-blue-500';
 
   const layoutStyle = 'rounded-lg overflow-hidden w-[calc(50%-8px)] max-w-[calc(50%-8px)]';
@@ -38,38 +40,38 @@ export const BasicLayout = () => {
       {/* Sidebar left */}
       <Layout className={layoutStyle}>
         <Header className={headerStyle}>Header</Header>
-        <div className="flex flex-1">
-          <Sidebar className={sidebarStyle} style={{ width: '25%' }}>
-            Sidebar
-          </Sidebar>
-          <Content className={contentStyle}>Content</Content>
-        </div>
+        <Row>
+          <Col span={6}><Sidebar className={sidebarStyle} >Sidebar</Sidebar></Col>
+          <Col span={18}><Content className={contentStyle}>Content</Content></Col>
+        </Row>
         <Footer className={footerStyle}>Footer</Footer>
       </Layout>
 
       {/* Sidebar right */}
       <Layout className={layoutStyle}>
         <Header className={headerStyle}>Header</Header>
-        <div className="flex flex-1">
-          <Content className={contentStyle}>Content</Content>
-          <Sidebar className={sidebarStyle} style={{ width: '25%' }}>
-            Sidebar
-          </Sidebar>
-        </div>
+        <Row>
+          <Col span={18}><Sidebar className={sidebarStyle} style={{ width: '100%' }}>Sidebar</Sidebar></Col>
+          <Col span={6}><Content className={contentStyle}>Content</Content></Col>
+        </Row>
         <Footer className={footerStyle}>Footer</Footer>
       </Layout>
 
       {/* Sidebar outside */}
-      <div className={`flex ${layoutStyle}`}>
-        <Sidebar className={sidebarStyle} style={{ width: '25%' }}>
-          Sidebar
-        </Sidebar>
-        <Layout className="flex-1 overflow-hidden w-full">
-          <Header className={headerStyle}>Header</Header>
-          <Content className={contentStyle}>Content</Content>
-          <Footer className={footerStyle}>Footer</Footer>
-        </Layout>
-      </div>
+      <Row className={`flex ${layoutStyle}`}>
+        <Col span={6}>
+          <Sidebar className={sidebarStyle}>
+            Sidebar
+          </Sidebar>
+        </Col>
+        <Col span={18}>
+          <Layout className="flex-1 overflow-hidden w-full">
+            <Header className={headerStyle}>Header</Header>
+            <Content className={contentStyle}>Content</Content>
+            <Footer className={footerStyle}>Footer</Footer>
+          </Layout>
+        </Col>
+      </Row>
     </div>
   );
 };

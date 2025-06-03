@@ -236,7 +236,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <div
       data-testid="sidebar"
-      className={`transition-all duration-300 bg-gray-900 text-white h-full relative ${className || ''}`}
+      className={`transition-all duration-300  text-white h-full relative ${className || ''}`}
       style={{ width: currentWidth, minWidth: currentWidth }}
       {...props}
     >

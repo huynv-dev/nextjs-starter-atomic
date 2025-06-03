@@ -80,12 +80,13 @@ export const Col: React.FC<ColProps> = ({
       className={classNames(
         currentSpan ? '' : 'flex-1',
         'relative',
+        'h-full',
         className
       )}
       style={colStyle}
       {...rest}
     >
-      <div className="min-h-[60px] flex items-center justify-center">
+      <div className="min-h-[60px] h-full flex items-center justify-center">
         {children}
       </div>
     </div>
