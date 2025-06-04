@@ -45,6 +45,7 @@ export const SizeChanger: Story = {
     total: 30,
     pageSize: 10,
     current: 1,
+    showSizeChanger: true,
     showQuickJumper: false
   },
   render: (args) => <WithState {...args} />,
@@ -55,15 +56,16 @@ export const QuickJumper: Story = {
     total: 250,
     pageSize: 10,
     current: 1,
+    showQuickJumper: true,
     showSizeChanger: false
   },
   render: (args) => <WithState {...args} />,
 };
 
-export const NoSizeChangerOrJumper: Story = {
+export const SizeChangerAndJumper: Story = {
   args: {
-    showSizeChanger: false,
-    showQuickJumper: false,
+    showSizeChanger: true,
+    showQuickJumper: true,
     total: 150,
   },
   render: (args) => <WithState {...args} />,
