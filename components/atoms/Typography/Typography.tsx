@@ -1,12 +1,28 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import clsx from 'clsx';
+import styles from './Typography.module.css';
+import { Copy, Edit, Check } from 'lucide-react';
+
 
 type Level = 1 | 2 | 3 | 4 | 5;
+type Variant =
+  | 'title'
+  | 'text'
+  | 'link'
+  | 'paragraph'
+  | 'code'
+  | 'mark'
+  | 'keyboard'
+  | 'delete'
+  | 'underline'
+  | 'strong'
+  | 'italic'
+  | 'disabled';
 
 interface TypographyProps {
-  variant?: 'title' | 'text' | 'link' | 'paragraph';
+  variant?: Variant;
   level?: Level;
-  type?: 'default' | 'secondary' | 'success' | 'warning' | 'danger';
+  type?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
   disabled?: boolean;
   mark?: boolean;
   code?: boolean;
@@ -18,35 +34,14 @@ interface TypographyProps {
   children: ReactNode;
   className?: string;
   onClick?: () => void;
+  editable?: boolean;
+  copyable?: boolean;
 }
-
-const levelClasses = {
-  1: 'text-4xl',
-  2: 'text-3xl',
-  3: 'text-2xl',
-  4: 'text-xl',
-  5: 'text-lg'
-};
-
-const variantClasses = {
-  title: 'font-semibold tracking-tight',
-  text: 'text-base',
-  link: 'text-blue-600 hover:text-blue-500 cursor-pointer',
-  paragraph: 'text-base leading-relaxed'
-};
-
-const typeClasses = {
-  default: 'text-gray-900',
-  secondary: 'text-gray-600',
-  success: 'text-green-600',
-  warning: 'text-yellow-600',
-  danger: 'text-red-600'
-};
 
 export function Typography({
   variant = 'text',
   level = 1,
-  type = 'default',
+  type = 'primary',
   disabled = false,
   mark = false,
   code = false,
@@ -57,60 +52,174 @@ export function Typography({
   italic = false,
   children,
   className = '',
-  onClick
+  onClick,
+  editable = false,
+  copyable = false,
 }: TypographyProps) {
   const Component = variant === 'title' ? `h${level}` : variant === 'paragraph' ? 'p' : 'span';
+  const [copied, setCopied] = useState(false);
+
+  // Hàm copy text vào clipboard
+  const handleCopy = () => {
+    if (typeof text === 'string' && text.length > 0) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000); // 2 giây hiện dấu check rồi reset
+        })
+        .catch(() => {
+          setCopied(false);
+          // Có thể xử lý lỗi nếu cần
+        });
+    }
+  };
 
   const classes = clsx(
-    // Base styles
-    'transition-colors',
-    variantClasses[variant],
-    variant === 'title' && levelClasses[level],
-    typeClasses[type],
-
-    // States
-    disabled && 'opacity-50 cursor-not-allowed',
-    mark && 'bg-yellow-200 p-0.5',
-    code && 'font-mono bg-gray-100 rounded px-1.5 py-0.5',
-    keyboard && 'font-mono border border-gray-200 bg-gray-50 rounded px-1.5 py-0.5',
-    underline && 'underline underline-offset-4',
-    isDelete && 'line-through',
-    strong && 'font-bold',
-    italic && 'italic',
-    
-    // Custom classes
+    styles.typography,
+    variant === 'title'
+      ? styles[`title-${level}`]
+      : variant === 'text'
+        ? styles[`text-${level}`]
+        : styles[variant],
+    type && styles[type],
+    {
+      [styles.disabled]: disabled,
+      [styles.mark]: mark,
+      [styles.code]: code,
+      [styles.keyboard]: keyboard,
+      [styles.underline]: underline,
+      [styles.delete]: isDelete,
+      [styles.strong]: strong,
+      [styles.italic]: italic,
+    },
     className
   );
 
-  const content = (
-    // @ts-ignore - Dynamic component
-    <Component 
-      className={classes}
-      onClick={!disabled ? onClick : undefined}
-    >
-      {children}
-    </Component>
+  const [isEditing, setIsEditing] = useState(false);
+  const [text, setText] = useState(
+    typeof children === 'string' ? children : '' // fallback
   );
 
-  return content;
+  const handleBlur = () => setIsEditing(false);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setIsEditing(false);
+    }
+  };
+
+  if (editable) {
+    return isEditing ? (
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        autoFocus
+        className="border-b outline-none bg-transparent text-inherit w-full h-full "
+      />
+    ) : (
+      // @ts-ignore
+      <Component
+        className={clsx(classes, 'cursor-pointer flex items-center gap-2')}
+        onClick={() => setIsEditing(true)}
+      >
+        {text}
+        <Edit className='ml-2 h-4 w-4' />
+        {copyable && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigator.clipboard.writeText(text);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            }}
+            aria-label="Copy text"
+            className="ml-2 cursor-pointer"
+          >
+            {copied ? (
+              <Check className="h-4 w-4 text-green-500" />
+            ) : (
+              <Copy className="h-4 w-4" />
+            )}
+          </button>
+        )}
+      </Component>
+
+    );
+  }
+
+  return (
+    // @ts-ignore
+    <Component className={clsx(classes, 'flex items-center gap-2')} onClick={!disabled ? onClick : undefined}>
+      {children}
+      {copyable && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleCopy();
+          }}
+          aria-label="Copy text"
+          className="ml-2 cursor-pointer"
+        >
+          {copied ? (
+            <Check className="h-4 w-4 text-green-500" />
+          ) : (
+            <Copy className="h-4 w-4" />
+          )}
+        </button>
+      )}
+    </Component>
+  );
 }
 
-// Title component
+
+
 export function Title(props: Omit<TypographyProps, 'variant'>) {
   return <Typography {...props} variant="title" />;
 }
 
-// Text component
 export function Text(props: Omit<TypographyProps, 'variant'>) {
   return <Typography {...props} variant="text" />;
 }
 
-// Link component
 export function Link(props: Omit<TypographyProps, 'variant'>) {
   return <Typography {...props} variant="link" />;
 }
 
-// Paragraph component
 export function Paragraph(props: Omit<TypographyProps, 'variant'>) {
   return <Typography {...props} variant="paragraph" />;
-} 
+}
+
+export function Code(props: Omit<TypographyProps, 'variant'>) {
+  return <Typography {...props} variant="code" />;
+}
+
+export function Mark(props: Omit<TypographyProps, 'variant'>) {
+  return <Typography {...props} variant="mark" />;
+}
+
+export function Keyboard(props: Omit<TypographyProps, 'variant'>) {
+  return <Typography {...props} variant="keyboard" />;
+}
+
+export function Delete(props: Omit<TypographyProps, 'variant'>) {
+  return <Typography {...props} variant="delete" />;
+}
+
+export function Underline(props: Omit<TypographyProps, 'variant'>) {
+  return <Typography {...props} variant="underline" />;
+}
+
+export function Strong(props: Omit<TypographyProps, 'variant'>) {
+  return <Typography {...props} variant="strong" />;
+}
+
+export function Italic(props: Omit<TypographyProps, 'variant'>) {
+  return <Typography {...props} variant="italic" />;
+}
+
+export function Disabled(props: Omit<TypographyProps, 'variant'>) {
+  return <Typography {...props} variant="disabled" />;
+}

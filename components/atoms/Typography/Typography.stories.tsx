@@ -1,14 +1,26 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Typography, Title, Text, Link, Paragraph } from './Typography';
-
 const meta: Meta<typeof Typography> = {
-  title: 'Components/Atoms/Typography',
+  title: 'Atoms/Typography',
   component: Typography,
   tags: ['autodocs'],
   argTypes: {
     variant: {
       control: 'select',
-      options: ['title', 'text', 'link', 'paragraph'],
+      options: [
+        'title',
+        'text',
+        'link',
+        'paragraph',
+        'code',
+        'mark',
+        'keyboard',
+        'delete',
+        'underline',
+        'strong',
+        'italic',
+        'disabled',
+      ],
     },
     level: {
       control: 'select',
@@ -16,7 +28,7 @@ const meta: Meta<typeof Typography> = {
     },
     type: {
       control: 'select',
-      options: ['default', 'secondary', 'success', 'warning', 'danger'],
+      options: ['primary', 'secondary', 'success', 'warning', 'danger'],
     },
     disabled: { control: 'boolean' },
     mark: { control: 'boolean' },
@@ -26,7 +38,12 @@ const meta: Meta<typeof Typography> = {
     delete: { control: 'boolean' },
     strong: { control: 'boolean' },
     italic: { control: 'boolean' },
-    children: { control: 'text' },
+    editable: { control: 'boolean' },
+    copyable: { control: 'boolean' },
+    children: {
+      control: 'text',
+      defaultValue: 'Editable Typography',
+    },
   },
 };
 
@@ -43,18 +60,29 @@ export const Basic: Story = {
 // Title Levels
 export const TitleLevels = () => (
   <div className="space-y-4">
-    <Title level={1}>h1. Typography Title</Title>
-    <Title level={2}>h2. Typography Title</Title>
-    <Title level={3}>h3. Typography Title</Title>
-    <Title level={4}>h4. Typography Title</Title>
-    <Title level={5}>h5. Typography Title</Title>
+    <Title level={1} editable>h1. Typography Title</Title>
+    <Title level={2} editable>h2. Typography Title</Title>
+    <Title level={3} editable>h3. Typography Title</Title>
+    <Title level={4} editable>h4. Typography Title</Title>
+    <Title level={5} editable>h5. Typography Title</Title>
+  </div>
+);
+
+// Copy 
+export const Copy = () => (
+  <div className="space-y-4">
+    <Text level={1} copyable>h1. Typography Title</Text>
+    <Text level={2} copyable>h2. Typography Title</Text>
+    <Text level={3} copyable>h3. Typography Title</Text>
+    <Text level={4} copyable>h4. Typography Title</Text>
+    <Text level={5} copyable>h5. Typography Title</Text>
   </div>
 );
 
 // Text Types
 export const TextTypes = () => (
-  <div className="space-y-2">
-    <Text>Default Text</Text>
+  <div className="flex flex-col">
+    <Text>Primary Text</Text>
     <Text type="secondary">Secondary Text</Text>
     <Text type="success">Success Text</Text>
     <Text type="warning">Warning Text</Text>
@@ -64,7 +92,7 @@ export const TextTypes = () => (
 
 // Text Decorations
 export const TextDecorations = () => (
-  <div className="space-y-2">
+  <div className="flex flex-col gap-3">
     <Text strong>Strong Text</Text>
     <Text italic>Italic Text</Text>
     <Text underline>Underline Text</Text>
@@ -78,7 +106,7 @@ export const TextDecorations = () => (
 
 // Links
 export const Links = () => (
-  <div className="space-y-2">
+  <div className="flex flex-col gap-3">
     <Link>Default Link</Link>
     <Link type="success">Success Link</Link>
     <Link disabled>Disabled Link</Link>
@@ -95,7 +123,7 @@ export const Paragraphs = () => (
       Duis vitae dolor at quam pulvinar commodo.
     </Paragraph>
     <Paragraph type="secondary">
-      This is a secondary paragraph with <Text mark>highlighted</Text> text and 
+      This is a secondary paragraph with <Text mark>highlighted</Text> text and
       <Text strong> bold text</Text>.
     </Paragraph>
   </div>
@@ -107,9 +135,6 @@ export const Interactive = () => (
     <Link onClick={() => alert('Link clicked!')}>
       Click me!
     </Link>
-    <Text mark strong type="success" onClick={() => alert('Text clicked!')}>
-      Interactive Text
-    </Text>
   </div>
 );
 
@@ -126,11 +151,12 @@ export const CombinedFeatures = () => (
       Combined Link Features
     </Link>
     <Paragraph>
-      A paragraph with <Text mark>highlighted</Text>, 
-      <Text code> code </Text>, and 
+      A paragraph with <Text mark>highlighted</Text>,
+      <Text code> code </Text>, and
       <Text keyboard> keyboard </Text> text.
-      Also includes <Link>a link</Link> and 
+      Also includes <Link>a link</Link> and
       <Text type="success" strong> success text</Text>.
     </Paragraph>
   </div>
-); 
+);
+
