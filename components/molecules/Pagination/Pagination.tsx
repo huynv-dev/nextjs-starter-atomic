@@ -1,3 +1,4 @@
+import { PaginationConfig } from '@/types/table';
 import React from 'react';
 
 
