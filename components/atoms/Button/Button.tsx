@@ -1,8 +1,9 @@
-import { ButtonHTMLAttributes, useRef } from 'react';
+import { ButtonHTMLAttributes, forwardRef, useRef } from 'react';
 import { clsx } from 'clsx';
 import styles from './button.module.css'
+
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
-  type?: 'secondary' | 'primary' | 'dashed' | 'text' | 'link' | 'ghost' | 'outline';
+  type?: 'secondary' | 'primary' | 'dashed' | 'text' | 'link' | 'ghost' | 'outline' | 'danger';
   htmlType?: 'button' | 'submit' | 'reset';
   color?: 'default' | 'primary' | 'secondary' | 'danger' | 'success' | 'black';
   size?: 'sm' | 'md' | 'lg';
@@ -13,10 +14,9 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   iconPosition?: 'start' | 'end';
 }
 
-
 const baseStyles =
-  `rounded-xl font-sans font-medium text-center cursor-pointer 
-   active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed`;
+  `font-sans font-medium text-center cursor-pointer 
+    transition-all disabled:opacity-50 disabled:cursor-not-allowed`;
 
 const sizeStyles: Record<string, string> = {
   sm: 'py-2 px-4 text-sm min-h-[40px] min-w-[40px]',
@@ -26,19 +26,19 @@ const sizeStyles: Record<string, string> = {
 
 const typeStyles: Record<string, string> = {
   primary: styles.gradientButton,
-  secondary: 'border text-fore-text',
+  secondary: ' text-fore-text',
   dashed: 'bg-transparent border border-dashed border-muted text-fore-text hover:border-fore-text',
   text: 'bg-transparent text-fore-text hover:bg-muted',
   link: 'bg-transparent text-blue-500 underline hover:text-blue-500 p-0',
   outline: 'bg-transparent border border-muted text-fore-text hover:bg-muted',
   ghost: 'bg-transparent font-medium text-sm leading-[1.125rem] transition-colors duration-200 will-change-transform border border-transparent hover:bg-muted active:border-current',
+  danger: 'bg-red-500 text-white hover:bg-red-600 active:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2',
 };
 
 const colorStyles: Record<
   NonNullable<ButtonProps['type']>,
   Record<NonNullable<ButtonProps['color']>, string>
 > = {
-
   primary: {
     primary: styles.gradientButton,
     default: 'bg-default text-white hover:bg-default-hover',
@@ -95,120 +95,142 @@ const colorStyles: Record<
     success: 'bg-transparent text-green-500 underline hover:text-green-700 p-0',
     black: 'bg-transparent text-black underline hover:text-black-hover p-0',
   },
+  danger: {
+    primary: 'bg-red-500 text-white hover:bg-red-600 active:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2',
+    default: 'bg-red-500 text-white hover:bg-red-600 active:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2',
+    secondary: 'bg-red-400 text-white hover:bg-red-500 active:bg-red-600',
+    danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
+    success: 'bg-red-500 text-white hover:bg-red-600 active:bg-red-700',
+    black: 'bg-red-900 text-white hover:bg-red-800 active:bg-red-700',
+  },
 };
 
 
-export function Button({
-  type = 'primary',
-  htmlType = 'button',
-  size = 'md',
-  className = '',
-  color = 'default',
-  loading = false,
-  disabled = false,
-  icon,
-  iconPosition = 'start',
-  loadingIcon,
-  loadingText,
-  children,
-  ...props
-}: ButtonProps) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const isIconOnly = !children && icon;
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      type = 'primary',
+      htmlType = 'button',
+      size = 'md',
+      className = '',
+      color = 'default',
+      loading = false,
+      disabled = false,
+      icon,
+      iconPosition = 'start',
+      loadingIcon,
+      loadingText,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    const innerRef = useRef<HTMLButtonElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ref.current || type !== 'primary') return;
-    const rect = ref.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    ref.current.style.backgroundPosition = `${x}% ${y}%`;
-  };
+    const handleMouseMove = (e: React.MouseEvent) => {
+      const btn = (ref as React.RefObject<HTMLButtonElement>)?.current ?? innerRef.current;
+      if (!btn || type !== 'primary') return;
+      const rect = btn.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      btn.style.backgroundPosition = `${x}% ${y}%`;
+    };
 
-  const buttonClasses = clsx(
-    baseStyles,
-    color !== 'default' ? colorStyles[type]?.[color] : typeStyles[type],
-    loading && 'opacity-70 cursor-wait',
-    isIconOnly ? 'rounded-full p-0' : 'rounded-xl',
-    isIconOnly
-      ? {
-        sm: 'h-10 w-10 min-w-0',
-        md: 'h-12 w-12 min-w-0',
-        lg: 'h-14 w-14 min-w-0',
-      }[size]
-      : sizeStyles[size],
-    className,
-  );
+    const isIconOnly = !children && icon;
 
-  const renderContent = () => {
-    if (loading) {
-      const spinner = loadingIcon || (
-        <svg
-          data-testid="loading-spinner"
-          className="animate-spin h-4 w-4"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 
+    const buttonClasses = clsx(
+      baseStyles,
+      color !== 'default' ? colorStyles[type]?.[color] : typeStyles[type],
+      loading && 'opacity-70 cursor-wait',
+      isIconOnly ? 'rounded-full flex items-center justify-center' : '',
+      isIconOnly
+        ? {
+          sm: 'h-10 w-10 min-w-0',
+          md: 'h-12 w-12 min-w-0',
+          lg: 'h-14 w-14 min-w-0',
+        }[size]
+        : sizeStyles[size],
+      className
+    );
+
+    const renderContent = () => {
+      if (loading) {
+        const spinner = loadingIcon || (
+          <svg
+            data-testid="loading-spinner"
+            className="animate-spin h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 
             5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 
             5.824 3 7.938l3-2.647z"
-          />
-        </svg>
-      );
+            />
+          </svg>
+        );
+
+        return (
+          <span className="inline-flex items-center justify-center gap-2">
+            {iconPosition === 'start' && spinner}
+            {loadingText ?? children}
+            {iconPosition === 'end' && spinner}
+          </span>
+        );
+      }
+
+      if (!icon) return children;
+
+      if (isIconOnly) {
+        return <span className="inline-flex items-center justify-center">{icon}</span>;
+      }
 
       return (
         <span className="inline-flex items-center justify-center gap-2">
-          {iconPosition === 'start' && spinner}
-          {loadingText ?? children}
-          {iconPosition === 'end' && spinner}
+          {iconPosition === 'start' ? (
+            <>
+              {icon}
+              {children}
+            </>
+          ) : (
+            <>
+              {children}
+              {icon}
+            </>
+          )}
         </span>
       );
-    }
-
-    if (!icon) return children;
-
-    if (isIconOnly) {
-      return <span className="inline-flex items-center justify-center">{icon}</span>;
-    }
+    };
 
     return (
-      <span className="inline-flex items-center justify-center gap-2">
-        {iconPosition === 'start' ? (
-          <>
-            {icon}
-            {children}
-          </>
-        ) : (
-          <>
-            {children}
-            {icon}
-          </>
-        )}
-      </span>
+      <button
+        ref={(node) => {
+          // Hỗ trợ cả ref từ bên ngoài và ref nội bộ
+          if (typeof ref === 'function') ref(node);
+          else if (ref) (ref as React.RefObject<HTMLButtonElement | null>).current = node;
+          innerRef.current = node;
+        }}
+        type={htmlType}
+        disabled={disabled || loading}
+        onMouseMove={type === 'primary' ? handleMouseMove : undefined}
+        className={buttonClasses}
+        {...props}
+      >
+        {renderContent()}
+      </button>
     );
-  };
+  }
+);
 
-  return (
-    <button
-      ref={ref}
-      type={htmlType}
-      disabled={disabled || loading}
-      onMouseMove={type === 'primary' ? handleMouseMove : undefined}
-      className={buttonClasses}
-      {...props}
-    >
-      {renderContent()}
-    </button>
-  );
-}
+Button.displayName = 'Button';

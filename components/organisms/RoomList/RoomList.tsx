@@ -3,7 +3,7 @@
 import { Room } from '@/types/room';
 import { RoomCard } from '@/components/molecules/RoomCard';
 import { Typography } from '@/components/atoms/Typography/Typography';
-import { useRooms } from '@/lib/hooks/useRooms';
+import { useRooms } from '@/hooks/useRooms';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -33,14 +33,14 @@ const CategoryRoomList = ({ title, rooms, viewAllLink }: CategoryRoomListProps) 
       </div>
 
       {/* Navigation buttons */}
-      <button 
+      <button
         ref={navigationPrevRef}
         className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 p-2 rounded-full bg-white shadow-md hover:shadow-lg transition-all border opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 disabled:opacity-0"
         style={{ marginLeft: '-20px' }}
       >
         <ChevronLeft size={24} />
       </button>
-      <button 
+      <button
         ref={navigationNextRef}
         className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 p-2 rounded-full bg-white shadow-md hover:shadow-lg transition-all border opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 disabled:opacity-0"
         style={{ marginRight: '-20px' }}
@@ -235,13 +235,13 @@ export function RoomListContainer() {
                     <div className="space-y-3">
                       {/* Image skeleton */}
                       <Skeleton className="w-full aspect-square rounded-xl" />
-                      
+
                       {/* Price skeleton */}
                       <div className="flex items-center space-x-1">
                         <Skeleton className="h-5 w-24" />
                         <Skeleton className="h-4 w-12" />
                       </div>
-                      
+
                       {/* Title and rating skeleton */}
                       <div className="flex items-center justify-between">
                         <Skeleton className="h-4 w-28" />
