@@ -38,6 +38,7 @@ interface ModalProps {
   mask?: boolean;
   maskClosable?: boolean;
   style?: React.CSSProperties;
+  styleContent?: string;
   width?: string | number;
   height?: string | number;
   wrapClassName?: string;
@@ -88,6 +89,7 @@ export const Modal: React.FC<ModalProps> & {
   mask = true,
   maskClosable = false,
   style = {},
+  styleContent = {},
   width = 520,
   height = 500,
   wrapClassName = "",
@@ -299,7 +301,7 @@ export const Modal: React.FC<ModalProps> & {
           )}
 
           {/* Content */}
-          <div className="p-6">
+          <div className={`p-6 ${styleContent}`} >
             {content || children}
           </div>
 
