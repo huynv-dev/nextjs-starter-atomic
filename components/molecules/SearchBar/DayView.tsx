@@ -2,6 +2,7 @@
 import { Button } from "@/components/atoms/Button/Button";
 import MinusPlusIcon from "@/components/icons/MinusPlus";
 import { ChevronLeft, ChevronRight, Minus, Plus } from "lucide-react";
+import { on } from "node:stream";
 import { useEffect, useState } from "react";
 
 interface DayViewProps {
@@ -16,7 +17,7 @@ interface DayViewProps {
   minSelectableDate?: Date;
   onCloseModal?: () => void;
   selectedDate?: Date | null;
-
+  onClear?: () => void
 }
 
 
@@ -31,7 +32,8 @@ export const DayView: React.FC<DayViewProps> = ({
   isModal = false,
   minSelectableDate = 28,// tối thiểu 28 ngày sau ngày check-in
   onCloseModal,
-  selectedDate
+  selectedDate,
+  onClear
 }) => {
   const [tempDate, setTempDate] = useState<Date | null>(null);
 
@@ -166,28 +168,35 @@ export const DayView: React.FC<DayViewProps> = ({
         {renderCalendar(currentMonthDays, adjustedMonth, currentYear, true)}
         {renderCalendar(nextMonthDays, (adjustedMonth + 1) % 12, currentYear + Math.floor((adjustedMonth + 1) / 12), false, true)}
       </div>
-      <div className={`flex gap-2 items-center mt-6 pt-4 ${!isModal ? 'border-t' : 'border-b pb-5 border-gray-300'}`}>
-        <Button
-          icon={<MinusPlusIcon />}
-          type="secondary"
-          size="sm"
-          onClick={() => onClearQuickSelect?.(0)}
-          className="text-xs border focus:border-black font-normal border-gray-200 rounded-full px-4 py-2 hover:bg-gray-50">
-          Ngày chính xác
-        </Button>
-        {[1, 2, 3, 7, 14].map(days => (
+
+      {onClear ? (
+        <div className="flex items-center justify-end">
+          <Button type="link" onClick={onClear} color="black">Xóa ngày</Button>
+        </div>
+      ) : (
+        <div className={`flex gap-2 items-center mt-6 pt-4 ${!isModal ? 'border-t' : 'border-b pb-5 border-gray-300'}`}>
           <Button
             icon={<MinusPlusIcon />}
-            key={days}
             type="secondary"
             size="sm"
-            onClick={() => onQuickSelect?.(days)}
-            className="text-xs border font-normal focus:border-black border-gray-200 rounded-full px-4 py-2 hover:bg-gray-50 flex items-center gap-1"
-          >
-            {days} Ngày
+            onClick={() => onClearQuickSelect?.(0)}
+            className="text-xs border focus:border-black font-normal border-gray-200 rounded-full px-4 py-2 hover:bg-gray-50">
+            Ngày chính xác
           </Button>
-        ))}
-      </div>
+          {[1, 2, 3, 7, 14].map(days => (
+            <Button
+              icon={<MinusPlusIcon />}
+              key={days}
+              type="secondary"
+              size="sm"
+              onClick={() => onQuickSelect?.(days)}
+              className="text-xs border font-normal focus:border-black border-gray-200 rounded-full px-4 py-2 hover:bg-gray-50 flex items-center gap-1"
+            >
+              {days} Ngày
+            </Button>
+          ))}
+        </div>
+      )}
       {isModal &&
         <div className="mt-3 flex justify-end">
           <Button type="secondary" color="black" className="rounded-xl"
