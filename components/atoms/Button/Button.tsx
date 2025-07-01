@@ -197,7 +197,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       }
 
       return (
-        <span className="inline-flex items-center justify-center gap-2">
+        <span className={`inline-flex items-center justify-center gap-2 ${type == 'link' ? '!underline' : ''}`}>
           {iconPosition === 'start' ? (
             <>
               {icon}
