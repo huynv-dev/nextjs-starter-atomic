@@ -58,7 +58,7 @@ export const Header = () => {
       <div className={`container-fluid mx-auto px-12 flex flex-col justify-around`}>
         {/* Top Bar */}
         <div className="flex items-center justify-between h-20">
-          <Logo className="flex-shrink-0" />
+          <Logo className="flex-shrink-0 hidden md:block" />
 
           {/* Navigation */}
           <div className="flex-1 flex justify-center">
@@ -117,8 +117,8 @@ export const Header = () => {
           </div>
 
           {/* User Menu */}
-          <div className="flex items-center space-x-2">
-            <Button size="sm" type="ghost" className="hover:bg-gray-100 px-4 py-2 rounded-full text-base">
+          <div className="hidden md:flex items-center space-x-2">
+            <Button size="sm" type="ghost" className="hover:bg-gray-100 px-4 py-2 rounded-full text-base hidden lg:inline-flex">
               Trở thành host
             </Button>
             <Button size="sm" type="secondary" className="rounded-full bg-[#F2F2F2] hover:bg-[#EBEBEB] h-10 w-10 pl-[10px]">
@@ -170,7 +170,7 @@ export const Header = () => {
             <div className={`absolute top-[50%] translate-y-[-125%] left-0 right-0 flex justify-center transition-all duration-500 ${shouldShowScrolledState ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}`}>
               <div
                 ref={collapsedSearchRef}
-                className="flex items-center space-x-4 border rounded-full py-2 px-6 shadow-md hover:shadow-lg transition-shadow bg-white"
+                className="flex items-center space-x-4 border rounded-full max-h-16 py-2 px-6 shadow-md hover:shadow-lg transition-shadow bg-white"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -198,8 +198,8 @@ export const Header = () => {
                   <span className="text-sm font-medium">Thêm khách</span>
                   <Button
                     size="md"
-                    className="text-white rounded-full transition-colors text-nowrap w-8 h-8 ml-2"
-                    icon={<Search size={15} />}
+                    className="text-white rounded-full transition-colors flex-shrink-0 text-nowrap w-10 h-10 ml-2"
+                    icon={<Search size={20} />}
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
