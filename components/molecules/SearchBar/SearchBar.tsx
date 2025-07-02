@@ -146,7 +146,7 @@ export const SearchBar = ({ onSearch, expandSearch, focusedInput }: SearchBarPro
   };
 
   return (
-    <div className="relative w-[60%] mx-auto" ref={searchBarRef}>
+    <div className="relative w-full md:w-[60%] mx-auto" ref={searchBarRef}>
       <div className="flex items-center justify-between border rounded-full shadow-[0_3px_10px_rgb(0,0,0,0.1)] hover:shadow-[0_3px_10px_rgb(0,0,0,0.15)] transition-all bg-white max-w-[850px] mx-auto divide-x-0">
         <LocationInput
           handleReset={handleResetLocation}
