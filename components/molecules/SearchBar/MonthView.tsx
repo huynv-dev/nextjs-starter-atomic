@@ -1,6 +1,6 @@
 'use client'
 import { useGuestCounter } from "@/hooks/useGuestCounter";
-import { Counter } from "./Counter";
+import { Counter } from "../../atoms/Counter/Counter";
 import { ModalDayPicker } from "./ModalDayPicker";
 import { useEffect, useState } from "react";
 

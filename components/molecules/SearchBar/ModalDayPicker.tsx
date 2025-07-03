@@ -1,7 +1,7 @@
 'use client'
 import { useEffect } from "react";
-import { DayView } from "./DayView";
 import { Modal } from "@/components/organisms/Modal/Modal";
+import { Calendar } from "../../atoms/Calendar/Calendar";
 
 interface ModalDayPickerProps {
   isOpen: boolean;
@@ -44,7 +44,7 @@ export const ModalDayPicker = ({
       showFooter={false}
       ref={modalRef}
     >
-      <DayView
+      <Calendar
         selectedCheckIn={localCheckIn}
         selectedCheckOut={localCheckOut}
         selectedDate={selectedDate}

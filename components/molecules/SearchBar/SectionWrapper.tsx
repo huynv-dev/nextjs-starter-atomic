@@ -24,7 +24,6 @@ export const SectionWrapper = ({
   onClick,
   showRightBorder = false,
   isActive,
-  isHover
 }: SectionWrapperProps) => (
   <div className={clsx('relative group', className)}>
     <Button

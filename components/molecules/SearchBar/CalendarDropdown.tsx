@@ -3,13 +3,13 @@ import React, { ReactNode, useEffect, useState } from "react";
 import { DropdownContainer } from "./DropdownContainer";
 import { useHover } from "@/hooks/useHover";
 import { SectionWrapper } from "./SectionWrapper";
-import { TabSelector } from "./Tabselector";
-import { DayView } from "./DayView";
 import { MonthView } from "./MonthView";
 import { FlexibleView } from "./FlexibleView";
 import { use } from "chai";
 import { Button } from "@/components/atoms/Button/Button";
 import { X } from "lucide-react";
+import { Calendar } from "../../atoms/Calendar/Calendar";
+import { TabSelector } from "../../atoms/TabSelector/TabSelector";
 
 interface DateRangeProps {
   checkInLabel?: string;
@@ -120,7 +120,7 @@ export const CalendarDropdown = ({
       <div className="px-4 max-h-[450px] overflow-y-auto overflow-x-hidden flex flex-col items-center">
         <TabSelector viewMode={viewMode} setViewMode={setViewMode} />
         {viewMode === 'day' && (
-          <DayView
+          <Calendar
             selectedCheckIn={checkIn}
             selectedCheckOut={checkOut}
             monthOffset={monthOffset}

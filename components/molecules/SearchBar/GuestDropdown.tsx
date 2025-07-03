@@ -4,7 +4,7 @@ import { Button } from "@/components/atoms/Button/Button";
 import { Search, X } from "lucide-react";
 import { ReactNode } from "react";
 import { DropdownContainer } from "./DropdownContainer";
-import { Counter } from "./Counter";
+import { Counter } from "../../atoms/Counter/Counter";
 
 
 
