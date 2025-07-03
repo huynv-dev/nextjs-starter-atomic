@@ -4,7 +4,6 @@
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
-  border-radius: 0.75rem; /* Tailwind's rounded-xl */
 }
 .gradientButton:hover {
   filter: brightness(1.05);

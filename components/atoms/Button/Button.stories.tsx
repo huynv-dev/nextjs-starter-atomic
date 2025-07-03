@@ -96,12 +96,13 @@ export default {
 
 export const Types = () => (
   <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
-    <Button >Primary</Button>
-    <Button type='secondary'>Secondary</Button>
-    <Button type="dashed" >Dashed</Button>
-    <Button type="link" >Link</Button>
-    <Button type="text" >Text</Button>
-    <Button type="ghost" >Ghost</Button>
+    <Button size='sm' >Primary</Button>
+    <Button size='sm' type='secondary'>Secondary</Button>
+    <Button size='sm' type="dashed" >Dashed</Button>
+    <Button size='sm' type="link" >Link</Button>
+    <Button size='sm' type="text" >Text</Button>
+    <Button size='sm' type="ghost" >Ghost</Button>
+    <Button size='sm' type="danger" >Danger</Button>
   </div>
 )
 
@@ -113,6 +114,7 @@ export const Colors = () => (
       <Button type="link" color='primary'>Link</Button>
       <Button type="text" color='primary'>Text</Button>
       <Button type="ghost" color='primary'>Ghost</Button>
+      <Button type="danger" color='primary'>Danger</Button>
     </div>
     <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
       <Button color='success'>Default</Button>
@@ -120,6 +122,7 @@ export const Colors = () => (
       <Button type="link" color='success'>Link</Button>
       <Button type="text" color='success'>Text</Button>
       <Button type="ghost" color='success'>Ghost</Button>
+      <Button type="danger" color='success'>Danger</Button>
     </div>
     <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
       <Button color='secondary'>Default</Button>
@@ -127,6 +130,7 @@ export const Colors = () => (
       <Button type="link" color='secondary'>Link</Button>
       <Button type="text" color='secondary'>Text</Button>
       <Button type="ghost" color='secondary'>Ghost</Button>
+      <Button type="danger" color='secondary'>Danger</Button>
     </div>
     <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
       <Button color='danger'>Default</Button>
@@ -134,6 +138,7 @@ export const Colors = () => (
       <Button type="link" color='danger'>Link</Button>
       <Button type="text" color='danger'>Text</Button>
       <Button type="ghost" color='danger'>Ghost</Button>
+      <Button type="danger" color='danger'>Danger</Button>
     </div>
     <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
       <Button color='black'>Default</Button>
@@ -141,6 +146,7 @@ export const Colors = () => (
       <Button type="link" >Link</Button>
       <Button type="text" color='black'>Text</Button>
       <Button type="ghost" color='black'>Ghost</Button>
+      <Button type="danger" color='black'>Danger</Button>
     </div>
 
   </div>

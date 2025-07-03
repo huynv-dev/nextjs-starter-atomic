@@ -1,6 +1,6 @@
 'use client';
 
-import { useRooms } from '@/lib/hooks/useRooms';
+import { useRooms } from '@/hooks/useRooms';
 import { RoomList } from '@/components/organisms/RoomList';
 import { Typography } from '@/components/atoms/Typography/Typography';
 import { Skeleton } from '@/components/atoms/Skeleton';
