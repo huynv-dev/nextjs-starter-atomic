@@ -1,8 +1,8 @@
 'use client'
 import { Button } from "@/components/atoms/Button/Button";
 import MinusPlusIcon from "@/components/icons/MinusPlus";
+import { generateCalendar } from "@/utils/generateCalendar";
 import { ChevronLeft, ChevronRight, Minus, Plus } from "lucide-react";
-import { on } from "node:stream";
 import { useEffect, useState } from "react";
 
 interface CalendarProps {
@@ -17,7 +17,9 @@ interface CalendarProps {
   minSelectableDate?: Date;
   onCloseModal?: () => void;
   selectedDate?: Date | null;
-  onClear?: () => void
+  onClear?: () => void;
+  calendarGap?: number;
+  correctDate?: boolean
 }
 
 
@@ -33,7 +35,9 @@ export const Calendar: React.FC<CalendarProps> = ({
   minSelectableDate = 28,// tối thiểu 28 ngày sau ngày check-in
   onCloseModal,
   selectedDate,
-  onClear
+  onClear,
+  calendarGap = 3,
+  correctDate = true,
 }) => {
   const [tempDate, setTempDate] = useState<Date | null>(null);
 
@@ -42,24 +46,6 @@ export const Calendar: React.FC<CalendarProps> = ({
       setTempDate(selectedDate ?? null);
     }
   }, [selectedDate, isModal]);
-
-
-  const generateCalendar = (year: number, month: number) => {
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const startDate = new Date(firstDay);
-    startDate.setDate(startDate.getDate() - firstDay.getDay());
-
-    const days = [];
-    const current = new Date(startDate);
-
-    for (let i = 0; i < 42; i++) {
-      days.push(new Date(current));
-      current.setDate(current.getDate() + 1);
-    }
-
-    return days;
-  };
 
   const isDateSelected = (date: Date) => {
     return (
@@ -111,7 +97,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-3" onClick={(event) => event.stopPropagation()}>
+        <div className={`grid grid-cols-7 gap-${calendarGap}`} onClick={(event) => event.stopPropagation()}>
           {days.map((date, index) => {
             const isCurrentMonth = date.getMonth() === month;
             const isToday = date.toDateString() === currentDate.toDateString();
@@ -139,7 +125,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                 className={`p-2 flex justify-center items-center text-sm rounded-full transition-colors relative ${!isCurrentMonth || isPast ? 'text-gray-300' : 'text-gray-900'} 
                   ${(isSelected || isTempSelected) ? 'bg-black text-white' : ''}
                   ${isInRange ? 'bg-gray-300' : ''} 
-                  ${isToday && !isSelected ? 'ring-2 ring-black' : ''} 
+                  ${isToday && !isSelected ? 'ring-1 ring-black' : ''} 
                   ${isModal ? 'cursor-not-allowed' : !isSelected && !isPast && isCurrentMonth ? 'hover:bg-gray-100' : ''} 
                   ${isPast ? 'cursor-not-allowed' : ''}
                   `}
@@ -174,28 +160,30 @@ export const Calendar: React.FC<CalendarProps> = ({
           <Button type="link" onClick={onClear} color="black">Xóa ngày</Button>
         </div>
       ) : (
-        <div className={`flex gap-2 items-center mt-6 pt-4 ${!isModal ? 'border-t' : 'border-b pb-5 border-gray-300'}`}>
-          <Button
-            icon={<MinusPlusIcon />}
-            type="secondary"
-            size="sm"
-            onClick={() => onClearQuickSelect?.(0)}
-            className="text-xs border focus:border-black font-normal border-gray-200 rounded-full px-4 py-2 hover:bg-gray-50">
-            Ngày chính xác
-          </Button>
-          {[1, 2, 3, 7, 14].map(days => (
+        correctDate && (
+          <div className={`flex gap-2 items-center mt-6 pt-4 ${!isModal ? 'border-t' : 'border-b pb-5 border-gray-300'}`}>
             <Button
               icon={<MinusPlusIcon />}
-              key={days}
               type="secondary"
               size="sm"
-              onClick={() => onQuickSelect?.(days)}
-              className="text-xs border font-normal focus:border-black border-gray-200 rounded-full px-4 py-2 hover:bg-gray-50 flex items-center gap-1"
-            >
-              {days} Ngày
+              onClick={() => onClearQuickSelect?.(0)}
+              className="text-xs border focus:border-black font-normal border-gray-200 rounded-full px-4 py-2 hover:bg-gray-50">
+              Ngày chính xác
             </Button>
-          ))}
-        </div>
+            {[1, 2, 3, 7, 14].map(days => (
+              <Button
+                icon={<MinusPlusIcon />}
+                key={days}
+                type="secondary"
+                size="sm"
+                onClick={() => onQuickSelect?.(days)}
+                className="text-xs border font-normal focus:border-black border-gray-200 rounded-full px-4 py-2 hover:bg-gray-50 flex items-center gap-1"
+              >
+                {days} Ngày
+              </Button>
+            ))}
+          </div>
+        )
       )}
       {isModal &&
         <div className="mt-3 flex justify-end">
