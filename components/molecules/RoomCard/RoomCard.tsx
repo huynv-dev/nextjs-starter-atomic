@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { Room } from '@/types/room';
 import { Image } from '@/components/atoms/Image';
 import { Heart } from '@/components/icons/custom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLayout } from '@/context/LayoutContext';
 
 interface RoomCardProps {
   room: Room;
@@ -12,7 +13,12 @@ interface RoomCardProps {
 
 export const RoomCard = ({ room }: RoomCardProps) => {
   const [isLiked, setIsLiked] = useState(false);
+  const { setLayout } = useLayout();
 
+  useEffect(() => {
+    setLayout?.({ disableScrollLogic: true });
+
+  }, []);
   const handleLike = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent link navigation
     setIsLiked(!isLiked);
@@ -32,7 +38,7 @@ export const RoomCard = ({ room }: RoomCardProps) => {
             withBlur={true}
             quality={90}
           />
-          
+
           {/* Favorite Badge */}
           <div className="absolute top-3 left-3 z-10">
             <div className="bg-white rounded-full px-3 py-1 shadow-sm">
@@ -41,16 +47,16 @@ export const RoomCard = ({ room }: RoomCardProps) => {
           </div>
 
           {/* Like Button */}
-          <button 
+          <button
             onClick={handleLike}
             className="absolute top-3 right-3 z-10 p-1.5 rounded-full hover:scale-110 active:scale-90 transition-all duration-200"
           >
-            <Heart 
+            <Heart
               size={24}
               className={`
                 transition-colors duration-200
-                ${isLiked 
-                  ? 'fill-rose-500 stroke-rose-500' 
+                ${isLiked
+                  ? 'fill-rose-500 stroke-rose-500'
                   : 'fill-[rgba(0,0,0,0.5)] stroke-white hover:fill-[rgba(0,0,0,0.8)]'
                 } 
                 stroke-2

@@ -5,7 +5,7 @@ import { RoomCard } from '@/components/molecules/RoomCard';
 import { Typography } from '@/components/atoms/Typography/Typography';
 import { useRooms } from '@/hooks/useRooms';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { Skeleton } from '@/components/atoms/Skeleton';
@@ -13,6 +13,7 @@ import { Skeleton } from '@/components/atoms/Skeleton';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { useLayout } from '@/context/LayoutContext';
 
 interface CategoryRoomListProps {
   title: string;
@@ -23,7 +24,13 @@ interface CategoryRoomListProps {
 const CategoryRoomList = ({ title, rooms, viewAllLink }: CategoryRoomListProps) => {
   const navigationPrevRef = useRef<HTMLButtonElement>(null);
   const navigationNextRef = useRef<HTMLButtonElement>(null);
+  const { setLayout } = useLayout();
 
+  useEffect(() => {
+    setLayout?.({ disableScrollLogic: false });
+
+    return () => setLayout?.({ disableScrollLogic: false });
+  }, []);
   return (
     <div className="mb-12 relative group">
       <div className="flex items-center justify-between mb-6">
@@ -49,11 +56,13 @@ const CategoryRoomList = ({ title, rooms, viewAllLink }: CategoryRoomListProps) 
       </button>
 
       {/* Swiper container */}
-      <div className="px-1">
+      <div className="px-1 ">
         <Swiper
+
+          loop={true}
           modules={[Navigation]}
           spaceBetween={24}
-          slidesPerView="auto"
+          // slidesPerView="auto"
           navigation={{
             prevEl: navigationPrevRef.current,
             nextEl: navigationNextRef.current,

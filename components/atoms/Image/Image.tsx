@@ -58,7 +58,7 @@ export const Image = ({ withBlur = false, ...props }: ImageProps) => {
   }
 
   return (
-    <div className={clsx('relative overflow-hidden')}>
+    <div className={clsx('relative')}>
       <NextImage
         {...props}
         className={`
