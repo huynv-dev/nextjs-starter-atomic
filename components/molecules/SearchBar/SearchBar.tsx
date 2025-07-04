@@ -5,6 +5,7 @@ import { LocationDropdown, LocationInput } from './LocationDropdown';
 import { GuestDropdown, GuestInput } from './GuestDropdown';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { useHover } from '@/hooks/useHover';
+import { getGuestLabel } from '@/utils/getGuestLabel';
 
 interface SearchBarProps {
   onSearch?: () => void;
@@ -63,19 +64,6 @@ export const SearchBar = ({ onSearch, expandSearch, focusedInput }: SearchBarPro
     pets: 0,
   });
 
-  const getGuestLabel = () => {
-    const { adults, children, infants, pets } = guestCounts;
-
-    const totalGuests = adults + children;
-    const parts = [];
-
-    if (totalGuests > 0) parts.push(`${totalGuests} khách`);
-    if (infants > 0) parts.push(`${infants} em bé`);
-    // if (pets > 0) parts.push(`${pets} thú cưng`);
-    if (pets > 0) parts.push(`...`);
-
-    return parts.length > 0 ? parts.join(', ') : 'Thêm khách';
-  };
 
 
 
@@ -218,7 +206,7 @@ export const SearchBar = ({ onSearch, expandSearch, focusedInput }: SearchBarPro
           onMouseEnter={() => setGuestHover(true)}
           onMouseLeave={() => setGuestHover(false)}
           onClick={handleGuestClick}
-          label={getGuestLabel()}
+          label={getGuestLabel(guestCounts)}
           handleReset={handleResetGuest}
           isHover={guestHover}
           checkOutHover={checkOutHover}

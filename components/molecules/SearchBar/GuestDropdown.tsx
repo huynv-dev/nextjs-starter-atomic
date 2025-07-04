@@ -13,6 +13,8 @@ export const GuestDropdown = ({
   onClose,
   guestCounts,
   onChangeGuestCounts,
+  position = 'right',
+  ref,
 }: {
   isOpen: boolean;
   onClose: () => void;
@@ -23,6 +25,8 @@ export const GuestDropdown = ({
     pets: number;
   };
   onChangeGuestCounts: (val: typeof guestCounts) => void;
+  position?: 'left' | 'center' | 'right';
+  ref?: React.Ref<HTMLDivElement>;
 }) => {
   const update = (key: keyof typeof guestCounts, delta: number) => {
     const newValue = guestCounts[key] + delta;
@@ -47,7 +51,7 @@ export const GuestDropdown = ({
   ];
 
   return (
-    <DropdownContainer isOpen={isOpen} onClose={onClose} position="right">
+    <DropdownContainer ref={ref} isOpen={isOpen} onClose={onClose} position={position}>
       <div className="space-y-1">
         {guestTypes.map((guest, index) => {
           const count = guestCounts[guest.key as keyof typeof guestCounts];
