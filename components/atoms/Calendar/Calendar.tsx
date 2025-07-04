@@ -22,7 +22,6 @@ interface CalendarProps {
   correctDate?: boolean
 }
 
-
 export const Calendar: React.FC<CalendarProps> = ({
   selectedCheckIn,
   selectedCheckOut,
@@ -32,7 +31,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   onQuickSelect,
   onClearQuickSelect,
   isModal = false,
-  minSelectableDate = 28,// tối thiểu 28 ngày sau ngày check-in
+  minSelectableDate = 28,
   onCloseModal,
   selectedDate,
   onClear,
@@ -59,6 +58,9 @@ export const Calendar: React.FC<CalendarProps> = ({
     return date > selectedCheckIn && date < selectedCheckOut;
   };
 
+
+
+
   // Calendar calculations
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + monthOffset;
@@ -75,7 +77,7 @@ export const Calendar: React.FC<CalendarProps> = ({
 
   const dayNames = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
 
-  const renderCalendar = (days: Date[], month: number, year: number, iconLeft?: boolean, iconRight?: boolean) => (
+  const renderCalendar = (days: (Date | null)[], month: number, year: number, iconLeft?: boolean, iconRight?: boolean) => (
     <div className="relative">
       {iconLeft &&
         <Button
@@ -97,13 +99,18 @@ export const Calendar: React.FC<CalendarProps> = ({
             </div>
           ))}
         </div>
-        <div className={`grid grid-cols-7 gap-${calendarGap}`} onClick={(event) => event.stopPropagation()}>
+        <div className={`grid grid-cols-7 grid-rows-6 gap-${calendarGap}`} onClick={(event) => event.stopPropagation()}>
           {days.map((date, index) => {
-            const isCurrentMonth = date.getMonth() === month;
+            // Nếu ô trống (null), render một ô trống không có tương tác
+            if (date === null) {
+              return (
+                <div key={index} className="p-2 h-10 w-10"></div>
+              );
+            }
+
             const isToday = date.toDateString() === currentDate.toDateString();
             const isTempSelected = isModal && tempDate && date.toDateString() === tempDate.toDateString();
             const isSelected = !isModal && isDateSelected(date);
-
             const isInRange = isDateInRange(date);
             const isPast = date < currentDate;
             const isBeforeMinDate = minSelectableDate && date < minSelectableDate;
@@ -115,19 +122,17 @@ export const Calendar: React.FC<CalendarProps> = ({
                 key={index}
                 onClick={() => {
                   if (!isPast && !isBeforeMinDate) {
-
                     !isModal && onDateClick(date);
                     setTempDate(date);
                   }
-
                 }}
                 disabled={isPast}
-                className={`p-2 flex justify-center items-center text-sm rounded-full transition-colors relative ${!isCurrentMonth || isPast ? 'text-gray-300' : 'text-gray-900'} 
+                className={`p-2 flex justify-center items-center text-sm rounded-full transition-colors relative text-gray-900
                   ${(isSelected || isTempSelected) ? 'bg-black text-white' : ''}
                   ${isInRange ? 'bg-gray-300' : ''} 
                   ${isToday && !isSelected ? 'ring-1 ring-black' : ''} 
-                  ${isModal ? 'cursor-not-allowed' : !isSelected && !isPast && isCurrentMonth ? 'hover:bg-gray-100' : ''} 
-                  ${isPast ? 'cursor-not-allowed' : ''}
+                  ${isModal ? 'cursor-not-allowed' : !isSelected && !isPast ? 'hover:bg-gray-100' : ''} 
+                  ${isPast ? 'cursor-not-allowed text-gray-300' : ''}
                   `}
               >
                 {date.getDate()}
@@ -191,7 +196,6 @@ export const Calendar: React.FC<CalendarProps> = ({
             onClick={() => {
               if (tempDate) {
                 console.log('vào');
-
                 onDateClick(tempDate);
               }
               onCloseModal?.();
