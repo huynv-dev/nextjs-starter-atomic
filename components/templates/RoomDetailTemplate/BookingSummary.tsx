@@ -11,6 +11,7 @@ import { DropdownContainer } from "@/components/molecules/SearchBar/DropdownCont
 import { Counter } from "@/components/atoms/Counter/Counter"
 import { GuestDropdown } from "@/components/molecules/SearchBar/GuestDropdown"
 import { getGuestLabel } from "@/utils/getGuestLabel"
+import clsx from "clsx"
 
 
 
@@ -119,7 +120,13 @@ export const BookingSummary = () => {
           <Button
             onClick={() => setIsGuestOpen(true)}
             type="secondary"
-            className="relative focus-within:border-t-transparent border-t border-gray-400 !px-2 !py-1 focus:outline focus:outline-black focus:outline-2 focus:rounded-xl w-full flex items-center justify-between min-h-[60px]"
+            className={clsx(
+              "relative border-t border-gray-400 !px-2 !py-1 w-full flex items-center justify-between min-h-[60px]",
+              {
+                "outline outline-black outline-2 rounded-xl": isGuestOpen,
+              }
+            )}
+
           >
             <div className="flex flex-col items-start">
               <Typography className="!text-[10px] !font-bold">KHÁCH</Typography>
