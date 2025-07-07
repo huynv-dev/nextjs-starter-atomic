@@ -102,7 +102,7 @@ export const ReviewModal = ({ isOpen, onClose, modalRef }: { isOpen: boolean; on
             ]}
           />
         </div>
-        <div className="col-span-6 max-md:mt-[5%] md:col-span-4  flex flex-col px-4 md:px-10">
+        <div className="col-span-6 max-md:mt-[5%] md:col-span-4  flex flex-col px-4 md:pl-10">
           {/* Header */}
           <div className={`flex-shrink-0 pb-4 transition-all duration-200 ${isScrolled ? "border-b border-gray-300" : ""}`}>
             <div className="flex items-center justify-between">
