@@ -38,7 +38,7 @@ export function ReviewSummarySection({
   metrics,
 }: ReviewSummarySectionProps) {
   return (
-    <div ref={ref} className={`flex flex-col ${!vertical ? 'gap-10' : 'gap-2 max-h-[500px] md:overflow-y-auto px-2'} my-10`}>
+    <div ref={ref} className={`flex flex-col ${!vertical ? 'gap-10' : 'gap-2 md:max-h-[500px] md:overflow-y-auto px-2'} my-10`}>
       {/* Phần điểm lớn */}
       <div className={`flex items-center justify-center ${vertical ? '' : 'gap-4'}`}>
         <Image src={leftWingImage} alt="left-wing" width={100} height={100} />
