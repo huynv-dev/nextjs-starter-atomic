@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 
 interface DropdownProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   className?: string;
   position?: 'left' | 'center' | 'right';
   width?: string;

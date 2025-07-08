@@ -37,7 +37,7 @@ export const LocationDropdown = ({
 
   return (
     <DropdownContainer isOpen={isOpen} onClose={onClose} >
-      <div className='p-3 flex flex-col items-start justify-start w-full max-h-[450px] overflow-y-auto'>
+      <div className='p-3 flex flex-col items-start justify-start w-full max-h-[450px] overflow-y-auto overscroll-contain'>
         <span className='text-xs ml-2'>Điểm đến được đề xuất</span>
         <div className="w-full">
           {locations.map((location, index) => (

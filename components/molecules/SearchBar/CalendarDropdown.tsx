@@ -1,5 +1,5 @@
 'use client'
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { DropdownContainer } from "./DropdownContainer";
 import { useHover } from "@/hooks/useHover";
 import { SectionWrapper } from "./SectionWrapper";
@@ -10,6 +10,7 @@ import { Button } from "@/components/atoms/Button/Button";
 import { X } from "lucide-react";
 import { Calendar } from "../../atoms/Calendar/Calendar";
 import { TabSelector } from "../../atoms/TabSelector/TabSelector";
+import { useScrollBoundary } from "@/hooks/useScrollBoundary";
 
 interface DateRangeProps {
   checkInLabel?: string;
@@ -77,7 +78,8 @@ export const CalendarDropdown = ({
   const [checkIn, setCheckIn] = useState<Date | null>(propCheckIn ?? null);
   const [checkOut, setCheckOut] = useState<Date | null>(propCheckOut ?? null);
   const [monthOffset, setMonthOffset] = useState(0);
-
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useScrollBoundary(scrollRef);
 
   const handleSelect = (date: Date) => {
     const today = new Date();
@@ -115,9 +117,8 @@ export const CalendarDropdown = ({
       onClose={onClose}
       position="center"
       width="w-[850px]"
-
     >
-      <div className="px-4 max-h-[450px] overflow-y-auto overflow-x-hidden flex flex-col items-center">
+      <div className="px-4 max-h-[450px] overflow-y-auto overflow-x-hidden flex flex-col items-center overscroll-contain">
         <TabSelector viewMode={viewMode} setViewMode={setViewMode} />
         {viewMode === 'day' && (
           <Calendar
@@ -263,17 +264,14 @@ export const DateRangeInput = ({
   })();
 
   return (
-    <div className={`w-2/6 ${isActive !== null ? 'bg-gray-200' : ''}
-    
-    `}>
+    <div className={`w-2/6 ${isActive !== null ? 'bg-gray-200' : ''}`}>
       {!isMonthOrFlexible ? (
         <div className="relative flex">
-          <div className={`w-1/2 
+          <div className={`w-1/2 flex-1 min-w-0 
           ${isActive == 'checkIn' && locationHover ? 'bg-gray-300 rounded-r-full' : ''}
           ${isActive == 'checkIn' && checkOutHovered ? 'bg-gray-300 rounded-l-full' : ''}
           ${isActive == 'checkout' && checkInHovered ? 'bg-gray-300 rounded-l-full' : ''}
           ${isActive == 'location' ? 'hover:bg-gray-300 rounded-r-full' : ''}
-          
           `}>
             <SectionWrapper
 
@@ -307,12 +305,11 @@ export const DateRangeInput = ({
             </SectionWrapper>
           </div>
 
-          <div className={`w-1/2 
+          <div className={`w-1/2 flex-1 min-w-0 
           ${isActive == 'checkIn' && checkOutHovered ? 'bg-gray-300 rounded-r-full' : ''}
           ${isActive == 'checkout' && checkInHovered ? 'bg-gray-300 rounded-r-full' : ''}
           ${isActive == 'checkout' && showGuestBorder ? 'bg-gray-300 rounded-l-full' : ''}
           ${isActive == 'guest' && checkOutHovered ? 'bg-gray-300 rounded-l-full' : ''}
-          
           `}>
             <SectionWrapper
               styleActive={`
