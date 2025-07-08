@@ -5,8 +5,6 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { createRoot } from "react-dom/client";
 
-
-
 interface ModalProps {
   isOpen?: boolean;
   onClose?: () => void;
@@ -14,6 +12,7 @@ interface ModalProps {
   onOk?: (close: () => void) => void | Promise<void>;
   afterClose?: () => void;
   title?: React.ReactNode;
+  titlePosition?: 'left' | 'center' | 'right';
   content?: React.ReactNode;
   children?: React.ReactNode;
 
@@ -38,10 +37,12 @@ interface ModalProps {
   mask?: boolean;
   maskClosable?: boolean;
   style?: React.CSSProperties;
+  styleContent?: string;
   width?: string | number;
   height?: string | number;
   wrapClassName?: string;
   zIndex?: number;
+  fullscreen?: boolean;
 
   // Container
   getContainer?: HTMLElement | (() => HTMLElement) | string | false;
@@ -50,7 +51,6 @@ interface ModalProps {
 
 interface ConfirmProps extends Omit<ModalProps, 'isOpen' | 'onClose'> {
   type?: 'info' | 'success' | 'error' | 'warning' | 'confirm';
-
 }
 
 export const Modal: React.FC<ModalProps> & {
@@ -66,6 +66,7 @@ export const Modal: React.FC<ModalProps> & {
   onOk,
   afterClose,
   title,
+  titlePosition = 'center',
   content,
   children,
 
@@ -88,10 +89,12 @@ export const Modal: React.FC<ModalProps> & {
   mask = true,
   maskClosable = false,
   style = {},
+  styleContent = {},
   width = 520,
   height = 500,
   wrapClassName = "",
   zIndex = 1000,
+  fullscreen = false, // Thêm prop fullscreen với default false
 
   getContainer = document.body,
   ref = null
@@ -228,15 +231,60 @@ export const Modal: React.FC<ModalProps> & {
 
     if (!isOpen || !mounted) return null;
 
+    // Tính toán class và style cho fullscreen
+    const containerClass = fullscreen
+      ? "fixed inset-0 flex items-center justify-center"
+      : `fixed inset-0 flex ${centered ? "items-center" : "items-start pt-[10vh]"} justify-center`;
+
+    const modalClass = fullscreen
+      ? `w-full h-full bg-white z-10 transform transition-all duration-300 ${className}`
+      : `relative bg-white rounded-lg shadow-2xl z-10 mx-4 transform transition-all duration-300 ${className}`;
+
+    const modalStyle = fullscreen
+      ? {
+        width: '100vw',
+        height: '100vh',
+        maxWidth: 'none',
+        maxHeight: 'none',
+        ...style
+      }
+      : {
+        width: typeof width === 'number' ? `${width}px` : width,
+        height: typeof height === 'number' ? `${height}px` : height,
+        maxWidth: '90vw',
+        maxHeight: '90vh',
+        ...style
+      };
+
+    const isTitlePositionValid = (
+      titlePosition?: "left" | "center" | "right",
+      closePosition?: "left" | "right"
+    ) => {
+      if (!titlePosition) return false;
+      if (titlePosition === "center") return true;
+      return titlePosition !== closePosition;
+    };
+    const getJustifyClass = (position?: "left" | "center" | "right") => {
+      switch (position) {
+        case "left":
+          return "justify-start";
+        case "right":
+          return "justify-end";
+        case "center":
+        default:
+          return "justify-center";
+      }
+    };
+
     const modalContent = (
       <div
         ref={ref}
-        className={`fixed inset-0 flex ${centered ? "items-center" : "items-start pt-[10vh]"} justify-center ${wrapClassName}`}
+        className={`${containerClass} ${wrapClassName}`}
         style={{ zIndex }}
         role="dialog"
         aria-modal="true"
       >
-        {mask && (
+        {mask && !fullscreen && (
           <div
             className="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300"
             onClick={handleBackdropClick}
@@ -245,19 +293,13 @@ export const Modal: React.FC<ModalProps> & {
         )}
 
         <div
-          className={`relative bg-white rounded-lg shadow-2xl z-10 mx-4 transform transition-all duration-300 ${className}`}
-          style={{
-            width: typeof width === 'number' ? `${width}px` : width,
-            height: typeof height === 'number' ? `${height}px` : height,
-            maxWidth: '90vw',
-            maxHeight: '90vh',
-            ...style
-          }}
+          className={modalClass}
+          style={modalStyle}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
           {(title || closable) && (
-            <div className="relative p-6 pb-0 text-center">
+            <div className={`relative p-6 pb-0 text-center`}>
               {/* Nút close bên trái */}
               {closable && closePosition === 'left' && (
                 <div className="absolute left-6 top-6">
@@ -273,14 +315,15 @@ export const Modal: React.FC<ModalProps> & {
               )}
 
               {/* Title & icon */}
-              {(title || icon) && (
-                <div className="flex items-center justify-center">
+              {(title || icon) && isTitlePositionValid(titlePosition, closePosition) && (
+                <div className={`flex items-center ${getJustifyClass(titlePosition)}`}>
                   {icon && <span className="mr-3 text-xl">{icon}</span>}
                   {title && (
                     <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
                   )}
                 </div>
               )}
+
 
               {/* Nút close bên phải */}
               {closable && closePosition === 'right' && (
@@ -299,12 +342,16 @@ export const Modal: React.FC<ModalProps> & {
           )}
 
           {/* Content */}
-          <div className="p-6">
+          <div className={`p-6 ${styleContent} ${fullscreen ? 'flex-1 overflow-y-auto' : ''}`}>
             {content || children}
           </div>
 
           {/* Footer */}
-          {showFooter && renderDefaultFooter()}
+          {showFooter && (
+            <div className={fullscreen ? 'border-t border-gray-200' : ''}>
+              {renderDefaultFooter()}
+            </div>
+          )}
         </div>
       </div>
     );

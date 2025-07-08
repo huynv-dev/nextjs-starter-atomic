@@ -7,8 +7,12 @@ import { SearchBar } from '@/components/molecules/SearchBar';
 import { Logo } from '@/components/atoms/Logo';
 import { Button } from '@/components/atoms/Button/Button';
 import { useClickOutside } from '@/hooks/useClickOutside';
+import { useLayout } from '@/context/LayoutContext';
+
 
 export const Header = () => {
+  const { disableScrollLogic } = useLayout();
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [expandSearch, setExpandSearch] = useState(false);
@@ -19,35 +23,42 @@ export const Header = () => {
   const collapsedSearchRef = useRef<HTMLDivElement>(null);
 
   // Fix useClickOutside to exclude collapsed search clicks
-  // useClickOutside([searchRef], () => {
-
-  //   setExpandSearch(false);
-  //   setFocusedInput(null);
-  // });
+  useClickOutside([searchRef], () => {
+    setExpandSearch(false);
+    setFocusedInput(null);
+  });
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    // Chỉ thêm scroll listener nếu không disable scroll logic
+    if (!disableScrollLogic) {
+      const handleScroll = () => setIsScrolled(window.scrollY > 50);
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [disableScrollLogic]);
 
   const handleExpandSearch = (inputType: "location" | "checkIn" | "checkout" | "guest", event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
-    console.log('Expanding search with:', inputType);
     setExpandSearch(true);
     setFocusedInput(inputType);
   };
-  useEffect(() => {
-    console.log('expandSearch', expandSearch);
 
-  }, [expandSearch])
+  // Quyết định class cho header dựa trên props
+  const headerClasses = disableScrollLogic
+    ? "max-md:hidden top-0 left-0 right-0 z-50 border-b shadow-md pt-2"
+    : "max-md:hidden fixed top-0 left-0 right-0 z-50 border-b shadow-sm pt-2";
+
+  // Quyết định logic hiển thị dựa trên props
+  const shouldShowScrolledState = (!disableScrollLogic && isScrolled) || disableScrollLogic;
+  const shouldShowNormalState = !disableScrollLogic && !isScrolled && !expandSearch;
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b shadow-sm pt-2" style={{ background: "linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%)" }}>
-      <div className={`container-fluid mx-auto px-12 ${expandSearch ? '' : 'max-h-[200px]'} ${isScrolled ? '' : 'max-h-[200px]'} flex flex-col justify-around`}>
+    <header className={headerClasses} style={{ background: "linear-gradient(180deg, #ffffff 39.9%, #f8f8f8 100%)" }}>
+      <div className={`container-fluid mx-auto px-12 flex flex-col justify-around`}>
         {/* Top Bar */}
         <div className="flex items-center justify-between h-20">
-          <Logo className="flex-shrink-0" />
+          <Logo className="flex-shrink-0 hidden md:block" />
 
           {/* Navigation */}
           <div className="flex-1 flex justify-center">
@@ -55,10 +66,10 @@ export const Header = () => {
               className={`
                 w-full flex items-center justify-center 
                 space-x-4 md:space-x-6 lg:space-x-10 
-                text-sm font-medium transition-all 
+                text-sm font-medium
                 min-h-[80px] lg:min-h-[104px] 
-                duration-300 
-                ${expandSearch ? expandSearch : isScrolled ? 'opacity-0 invisible' : ''}
+                 
+                ${expandSearch ? expandSearch : shouldShowScrolledState ? 'opacity-0 invisible' : ''}
               `}
             >
               <Link
@@ -106,8 +117,8 @@ export const Header = () => {
           </div>
 
           {/* User Menu */}
-          <div className="flex items-center space-x-2">
-            <Button size="sm" type="ghost" className="hover:bg-gray-100 px-4 py-2 rounded-full text-base">
+          <div className="hidden md:flex items-center space-x-2">
+            <Button size="sm" type="ghost" className="hover:bg-gray-100 px-4 py-2 rounded-full text-base hidden lg:inline-flex">
               Trở thành host
             </Button>
             <Button size="sm" type="secondary" className="rounded-full bg-[#F2F2F2] hover:bg-[#EBEBEB] h-10 w-10 pl-[10px]">
@@ -125,7 +136,7 @@ export const Header = () => {
         </div>
 
         {/* Search Bar Container */}
-        <div className={`relative ${isScrolled ? '' : 'pt-5 pb-10'}  ${!expandSearch ? '' : 'pt-3 pb-8'}`} ref={headerRef}>
+        <div className={`relative z-50 ${shouldShowScrolledState ? '' : 'pt-5 pb-10'}  ${!expandSearch ? '' : 'pt-3 pb-8'}`} ref={headerRef}>
           {/* Expanded Search Bar - Show when expandSearch is true */}
           {expandSearch && (
             <div
@@ -143,8 +154,8 @@ export const Header = () => {
             </div>
           )}
 
-          {/* Normal Search Bar - Show when not scrolled and not expanded */}
-          {!isScrolled && !expandSearch && (
+          {/* Normal Search Bar - Show when not scrolled and not expanded, hoặc khi disable scroll logic */}
+          {shouldShowNormalState && (
             <div className="w-full transition-all duration-300 opacity-100 visible scale-100">
               <SearchBar
                 expandSearch={false}
@@ -154,12 +165,12 @@ export const Header = () => {
             </div>
           )}
 
-          {/* Collapsed Search Bar - Show when scrolled and not expanded */}
-          {isScrolled && !expandSearch && (
-            <div className={`absolute top-[50%] translate-y-[-125%] left-0 right-0 flex justify-center transition-all duration-500 ${isScrolled ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}`}>
+          {/* Collapsed Search Bar - Show when scrolled and not expanded, hoặc khi disable scroll logic */}
+          {((disableScrollLogic) || (!disableScrollLogic && isScrolled)) && !expandSearch && (
+            <div className={`md:w-[80%] md:mx-auto absolute top-[50%] translate-y-[-125%] left-0 right-0 flex justify-center transition-all duration-500 ${shouldShowScrolledState ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}`}>
               <div
                 ref={collapsedSearchRef}
-                className="flex items-center space-x-4 border rounded-full py-2 px-6 shadow-md hover:shadow-lg transition-shadow bg-white"
+                className="flex items-center space-x-4 border rounded-full max-h-16 py-2 px-6 shadow-md hover:shadow-lg transition-shadow bg-white"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -170,29 +181,32 @@ export const Header = () => {
                   onClick={(e) => handleExpandSearch('location', e)}
                 >
                   <Search size={16} />
-                  <span className="text-sm font-medium">Địa điểm bất kỳ</span>
+                  <span className="text-sm font-medium flex-1 hidden md:block">Địa điểm bất kỳ</span>
                 </div>
                 <div
                   className="flex items-center space-x-3 border-r pr-4 cursor-pointer  rounded-lg px-2 py-1 transition-colors"
                   onClick={(e) => handleExpandSearch('checkIn', e)}
                 >
                   <CalendarDays size={16} />
-                  <span className="text-sm font-medium">Thời gian bất kỳ</span>
+                  <span className="text-sm font-medium flex-1 hidden md:block">Thời gian bất kỳ</span>
                 </div>
                 <div
-                  className="flex items-center space-x-3 cursor-pointer  rounded-lg px-2 py-1 transition-colors"
+                  className="flex items-center justify-between space-x-3 cursor-pointer  rounded-lg px-2 py-1 transition-colors"
                   onClick={(e) => handleExpandSearch('guest', e)}
                 >
                   <Users size={16} />
-                  <span className="text-sm font-medium">Thêm khách</span>
+                  <span className="text-sm font-medium flex-1 hidden md:block">Thêm khách</span>
                   <Button
                     size="md"
-                    className="text-white rounded-full transition-colors text-nowrap w-8 h-8 ml-2"
+                    className="text-white rounded-full transition-colors flex-shrink-0 text-nowrap w-8 h-8 ml-2"
                     icon={<Search size={15} />}
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      // Handle search action here
+                      // Handle search action here - chỉ cho phép expand search khi không disable scroll logic
+                      if (!disableScrollLogic) {
+                        // Handle search action here
+                      }
                     }}
                   />
                 </div>

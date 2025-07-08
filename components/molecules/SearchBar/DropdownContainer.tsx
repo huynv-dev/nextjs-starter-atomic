@@ -5,11 +5,12 @@ import { ReactNode } from "react";
 
 interface DropdownProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   className?: string;
   position?: 'left' | 'center' | 'right';
   width?: string;
   children: ReactNode;
+  ref?: React.Ref<HTMLDivElement>;
 }
 
 export const DropdownContainer = ({
@@ -18,7 +19,8 @@ export const DropdownContainer = ({
   className = '',
   position = 'left',
   width = 'w-[425px]',
-  children
+  children,
+  ref
 }: DropdownProps) => {
   if (!isOpen) return null;
 
@@ -30,6 +32,7 @@ export const DropdownContainer = ({
 
   return (
     <div
+      ref={ref}
       className={clsx(
         'absolute top-full mt-2 bg-white border rounded-3xl shadow-xl z-50 px-[2px] py-[20px]',
         width,

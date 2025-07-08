@@ -4,7 +4,7 @@ import { Button } from "@/components/atoms/Button/Button";
 import { Search, X } from "lucide-react";
 import { ReactNode } from "react";
 import { DropdownContainer } from "./DropdownContainer";
-import { Counter } from "./Counter";
+import { Counter } from "../../atoms/Counter/Counter";
 
 
 
@@ -13,6 +13,9 @@ export const GuestDropdown = ({
   onClose,
   guestCounts,
   onChangeGuestCounts,
+  position = 'right',
+  ref,
+  className
 }: {
   isOpen: boolean;
   onClose: () => void;
@@ -23,6 +26,9 @@ export const GuestDropdown = ({
     pets: number;
   };
   onChangeGuestCounts: (val: typeof guestCounts) => void;
+  position?: 'left' | 'center' | 'right';
+  ref?: React.Ref<HTMLDivElement>;
+  className?: string
 }) => {
   const update = (key: keyof typeof guestCounts, delta: number) => {
     const newValue = guestCounts[key] + delta;
@@ -47,7 +53,7 @@ export const GuestDropdown = ({
   ];
 
   return (
-    <DropdownContainer isOpen={isOpen} onClose={onClose} position="right">
+    <DropdownContainer className={className} ref={ref} isOpen={isOpen} onClose={onClose} position={position}>
       <div className="space-y-1">
         {guestTypes.map((guest, index) => {
           const count = guestCounts[guest.key as keyof typeof guestCounts];
@@ -99,7 +105,6 @@ export const GuestInput = ({
   isHover?: boolean;
   checkOutHover?: boolean;
 }) => {
-
   return (
     <div
       className={`
@@ -113,21 +118,19 @@ export const GuestInput = ({
     >
       <div
         className={`
-        flex items-center justify-between px-4 py-3 rounded-full text-left  transition-colors w-full cursor-pointer
+        flex items-center justify-between px-4 py-3 rounded-full text-left transition-colors w-full cursor-pointer
         ${isActive == null ? 'hover:bg-gray-100' : ''}
         ${isActive !== null && isActive == 'guest' ? 'bg-white' : ''}
         ${isActive !== null && isActive == 'location' || isActive == 'checkout' || isActive == 'checkIn' ? 'bg-gray-200 hover:bg-gray-300' : ''}
         `}
         onClick={onClick}
       >
-        <div className="flex flex-col items-start relative">
+        <div className="flex flex-col items-start relative flex-1 min-w-0">
           <div className="text-xs font-semibold">Khách</div>
-          <div className="text-sm text-[#6A6A6A] text-nowrap">{label}</div>
-
-
+          <div className="text-sm text-[#6A6A6A] text-nowrap truncate max-w-full">{label}</div>
         </div>
-        {
-          label !== 'Thêm khách' && isActive == 'guest' &&
+
+        {label !== 'Thêm khách' && isActive == 'guest' && (
           <Button
             onClick={handleReset}
             icon={<X size={18} className="text-gray-600" />}
@@ -135,19 +138,37 @@ export const GuestInput = ({
             size='sm'
             className="absolute right-[50%] top-[30%] w-7 h-7 z-50 rounded-full hover:bg-gray-50 transition-colors"
           />
-        }
+        )}
+
         <Button
           onClick={onSearch}
           size="md"
-          className={`text-white rounded-full transition-colors  text-nowrap
-           ${!isActive ? 'bg-[#FF385C]' : 'min-w-20 max-h-10'}`}
+          className={`
+            text-white rounded-full transition-colors flex-shrink-0 ml-2
+            ${!isActive
+              ? 'bg-[#FF385C] min-w-12'
+              : 'bg-[#FF385C] min-w-20 max-h-10 hidden sm:flex'
+            }
+          `}
           icon={<Search size={20} />}
         >
-          {isActive && 'Tìm kiếm'}
+          {isActive && (
+            <span className="hidden sm:inline">Tìm kiếm</span>
+          )}
         </Button>
+
+        {/* Button cho mobile khi active */}
+        {isActive && (
+          <Button
+            onClick={onSearch}
+            size="md"
+            className="bg-[#FF385C] text-white rounded-full transition-colors flex-shrink-0 ml-2 min-w-10 sm:hidden"
+            icon={<Search size={16} />}
+          />
+        )}
 
         {children}
       </div>
-    </div >
+    </div>
   )
 };
