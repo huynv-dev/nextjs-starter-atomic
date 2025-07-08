@@ -9,9 +9,9 @@ export const HomeTemplate = () => {
   const { rooms, isLoading, error } = useRooms();
 
   return (
-    <div>
+    <>
       {/* Main Content */}
-      <div className="container-fluid mx-auto px-12 py-8">
+      <div className="container-fluid mx-auto px-12 py-8 overflow-y-hidden">
         {error ? (
           <div className="text-center py-8">
             <Typography variant="text" className="text-gray-500">
@@ -38,6 +38,6 @@ export const HomeTemplate = () => {
           <RoomList rooms={rooms || []} />
         )}
       </div>
-    </div>
+    </>
   );
 };
