@@ -65,7 +65,7 @@ const HostProfile: React.FC<HostProfileProps> = ({
       </Typography>
 
       <div className="flex items-start gap-10 ">
-        <div className="w-2/3 md:w-1/3">
+        <div className="w-full md:w-1/3">
           <CardLayout classNames="flex my-10">
             <div className="flex w-2/3 items-center gap-4">
               <div className="flex flex-col items-center gap-2">

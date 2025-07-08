@@ -7,58 +7,37 @@ import { ChevronDown } from "lucide-react"
 import { useClickOutside } from "@/hooks/useClickOutside"
 import { DateRangeDropdown } from "./DateRangeDropdown"
 import { DateInputButton } from "./DateInputButton"
-import { DropdownContainer } from "@/components/molecules/SearchBar/DropdownContainer"
-import { Counter } from "@/components/atoms/Counter/Counter"
 import { GuestDropdown } from "@/components/molecules/SearchBar/GuestDropdown"
 import { getGuestLabel } from "@/utils/getGuestLabel"
 import clsx from "clsx"
 
 
 
-interface guestCounts {
-  adults: number;
-  children: number;
-  infants: number;
-  pets: number;
-};
+export const BookingSummary = (
+  {
+    checkIn,
+    checkOut,
+    onDateClick,
+    setMonthOffset,
+    monthOffset,
+    onClear,
+  }: {
+    checkIn: Date | null;
+    checkOut: Date | null;
+    onDateClick: (date: Date) => void;
+    setMonthOffset: (offset: number) => void;
+    monthOffset: number;
+    onClear: (type: "checkIn" | "checkOut" | "all") => void
+  }
 
-export const BookingSummary = () => {
+) => {
   const [isDayOpen, setIsDayOpen] = useState(false);
   const [isCheckIn, setIsCheckIn] = useState(true);
-  const [checkIn, setCheckIn] = useState<Date | null>(null);
-  const [checkOut, setCheckOut] = useState<Date | null>(null);
-  const [monthOffset, setMonthOffset] = useState(0);
   const [isGuestOpen, setIsGuestOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const guestModalRef = useRef<HTMLDivElement | null>(null);
   useClickOutside([modalRef], () => setIsDayOpen(false));
   useClickOutside([guestModalRef], () => setIsGuestOpen(false));
-
-  const handleDateSelect = (date: Date) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (date < today) return;
-
-    if (!checkIn || (checkIn && checkOut) || date < checkIn) {
-      setCheckIn(date);
-      setCheckOut(null);
-    } else {
-      setCheckOut(date);
-    }
-  };
-
-  const handleReset = (type: "checkIn" | "checkOut") => {
-    if (type === "checkIn") {
-      setCheckIn(null);
-      setCheckOut(null);
-    } else {
-      setCheckOut(null);
-    }
-  };
-
-  useEffect(() => {
-    console.log("checkIn:", checkIn, "checkOut:", checkOut);
-  }, [checkIn, checkOut]);
 
   const [guestCounts, setGuestCounts] = useState({
     adults: 1,
@@ -66,8 +45,6 @@ export const BookingSummary = () => {
     infants: 0,
     pets: 0,
   });
-
-
 
   return (
     <>
@@ -112,8 +89,8 @@ export const BookingSummary = () => {
               setIsOpen={setIsDayOpen}
               setIsCheckIn={setIsCheckIn}
               setMonthOffset={setMonthOffset}
-              handleReset={handleReset}
-              handleSelectDate={handleDateSelect}
+              handleReset={onClear}
+              handleSelectDate={onDateClick}
             />
           </div>
 
@@ -134,6 +111,7 @@ export const BookingSummary = () => {
             </div>
             <ChevronDown className="flex-shrink-0" />
             <GuestDropdown
+              className={'rounded-xl top-[90%] w-[inherit]'}
               ref={guestModalRef}
               isOpen={isGuestOpen}
               onClose={() => setIsGuestOpen(false)}

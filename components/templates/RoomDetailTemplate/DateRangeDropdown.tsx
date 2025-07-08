@@ -1,5 +1,5 @@
 // components/molecules/Booking/DateRangeDropdown.tsx
-import { RefObject } from "react";
+import { RefObject, useEffect } from "react";
 import { DropdownContainer } from "@/components/molecules/SearchBar/DropdownContainer";
 import { Button } from "@/components/atoms/Button/Button";
 import { Typography } from "@/components/atoms/Typography/Typography";
@@ -16,7 +16,7 @@ interface DateRangeDropdownProps {
   setIsOpen: (value: boolean) => void;
   setIsCheckIn: (value: boolean) => void;
   setMonthOffset: (offset: number) => void;
-  handleReset: (type: "checkIn" | "checkOut") => void;
+  handleReset: (type: "checkIn" | "checkOut" | "all") => void;
   handleSelectDate: (date: Date) => void;
 }
 
@@ -33,28 +33,15 @@ export const DateRangeDropdown = ({
   handleReset,
   handleSelectDate,
 }: DateRangeDropdownProps) => {
-  // Logic để xác định trạng thái active và disabled
   const getCheckInState = () => {
-    // CheckIn active khi:
-    // 1. Đang chọn checkIn (isCheckIn = true)
-    // 2. Cả checkIn và checkOut đều không có value
-
-    const isActive = isCheckIn || (!checkIn && !checkOut);
+    const isActive = isCheckIn && !checkIn || (!checkIn && !checkOut);
     const isDisabled = false; // CheckIn không bao giờ bị disable
 
     return { isActive, isDisabled };
   };
 
   const getCheckOutState = () => {
-    // CheckOut active khi:
-    // 1. Không đang chọn checkIn (isCheckIn = false) và checkOut có value
-    // 2. CheckIn có value và đang chọn checkOut
-    // 3. CheckIn có value nhưng checkOut không có
     const isActive = (!isCheckIn && !!checkOut) || (!!checkIn && !checkOut);
-
-    // CheckOut disabled khi:
-    // 1. Cả checkIn và checkOut đều không có value
-    // 2. CheckIn không có value
     const isDisabled = !checkIn;
 
     return { isActive, isDisabled };
@@ -63,13 +50,18 @@ export const DateRangeDropdown = ({
   const checkInState = getCheckInState();
   const checkOutState = getCheckOutState();
 
+  useEffect(() => {
+    if (checkIn && checkOut) {
+      setIsOpen(false);
+    }
+  }, [checkIn, checkOut]);
+
   return (
     <DropdownContainer
       ref={dropdownRef}
       isOpen={isOpen}
       position="right"
-      onClose={() => { }}
-      className="absolute !p-6 !top-[-25%] right-[-10%] w-[665px] min-h-[500px]"
+      className="absolute !p-6 !top-[-25%] right-[-10%] md:w-[665px] min-h-[500px]"
     >
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items-center mb-10">
@@ -88,7 +80,6 @@ export const DateRangeDropdown = ({
               isActive={checkInState.isActive}
               onClick={() => setIsCheckIn(true)}
               onReset={() => handleReset("checkIn")}
-
             />
             <DateInputButton
               label="TRẢ PHÒNG"
@@ -111,7 +102,7 @@ export const DateRangeDropdown = ({
           onDateClick={handleSelectDate}
         />
         <div className="flex justify-end gap-2">
-          <Button size="sm" type="link" color="black">Xóa ngày</Button>
+          <Button onClick={() => handleReset("all")} size="sm" type="link" color="black">Xóa ngày</Button>
           <Button size="sm" className="rounded-xl" type="secondary" color="black" onClick={() => setIsOpen(false)}>Đóng</Button>
         </div>
       </div>

@@ -79,6 +79,7 @@ export const ReviewModal = ({ isOpen, onClose, modalRef }: { isOpen: boolean; on
       centered
       className="!rounded-3xl"
       closePosition="left"
+      wrapClassName="h-full"
     >
       <div className="grid grid-cols-1 md:grid-cols-6 max-md:max-h-screen">
         <div className="col-span-6 max-md:border-b max-md:border-b-gray-300  md:col-span-2 ">

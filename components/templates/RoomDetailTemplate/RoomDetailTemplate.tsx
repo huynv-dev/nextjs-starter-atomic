@@ -11,6 +11,8 @@ import {
   CalendarFoldIcon, Car, Grid, Heart, LocationEdit, Map, ShareIcon, SnowflakeIcon, Wifi, DoorOpen,
   CalendarClock, TicketCheck, Key, MessageCircle, Pin,
   ChevronLeft,
+  Star,
+  Dot,
 } from 'lucide-react';
 import { RoomHighlights } from './RoomHighlightItem';
 import { HostInfo } from './HostInfo';
@@ -27,6 +29,8 @@ import { Calendar } from '@/components/atoms/Calendar/Calendar';
 import Modal from '@/components/organisms/Modal/Modal';
 import { ImageModal } from './ImageModal';
 import { ReviewModal } from './ReviewModal';
+import { NavHeader } from './NavHeader';
+import Link from 'next/link';
 
 interface RoomDetailTemplateProps {
   id: string;
@@ -151,6 +155,9 @@ export function RoomDetailTemplate({ id }: RoomDetailTemplateProps) {
   const bookingRef = useRef<HTMLDivElement>(null);
   const [imageModal, setImageModal] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(false);
+  const [bookingVisible, setBookingVisible] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       if (!roomOverviewRef.current || !reviewSectionRef.current || !bookingRef.current) return;
@@ -166,6 +173,8 @@ export function RoomDetailTemplate({ id }: RoomDetailTemplateProps) {
       const shouldStick = scrollTop >= stickyStart && scrollTop <= stickyEnd;
 
       setIsSticky(shouldStick);
+      setIsNavVisible(scrollTop > 300);
+      setBookingVisible(scrollTop > stickyEnd);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -181,8 +190,11 @@ export function RoomDetailTemplate({ id }: RoomDetailTemplateProps) {
     setLayout?.({ disableScrollLogic: true });
     return () => setLayout?.({ disableScrollLogic: false });
   }, []);
+
+
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [checkOut, setCheckOut] = useState<Date | null>(null);
+  const [liked, setLiked] = useState(false);
   const handleSelect = (date: Date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -198,9 +210,15 @@ export function RoomDetailTemplate({ id }: RoomDetailTemplateProps) {
       setCheckOut(null);
     }
   };
-  const handleClear = () => {
-    setCheckIn(null);
-    setCheckOut(null);
+  const handleClear = (type: "checkIn" | "checkOut" | "all") => {
+    if (type === "checkIn") {
+      setCheckIn(null);
+    } else if (type === "checkOut") {
+      setCheckOut(null);
+    } else {
+      setCheckIn(null);
+      setCheckOut(null);
+    }
   };
 
   const formatDateShort = (date?: Date | null, dayPlus?: number) => {
@@ -252,16 +270,34 @@ export function RoomDetailTemplate({ id }: RoomDetailTemplateProps) {
   );
 
   return (
-    <div className="max-md:px-4 max-w-6xl mx-auto">
+    <div className="relative max-md:px-4 max-w-6xl mx-auto overflow-x-hidden">
+      <NavHeader
+        isNavVisible={isNavVisible}
+        bookingVisible={isSticky}
+        roomOverviewRef={roomOverviewRef}
+        reviewSectionRef={reviewSectionRef}
+        bookingRef={bookingRef}
+        roomRating={room?.rating}
+      />
       <div className="flex flex-col gap-6">
         {/* Title + Share */}
         <div className="flex items-center justify-between">
-          <Typography level={3} className="font-semibold">{room.name}</Typography>
+          <Link
+            href="/"
+            className='md:hidden'
+          >
+            <ChevronLeft width={30} height={30} />
+          </Link>
+          <Typography level={3} className="font-semibold max-md:!text-xl">{room.name}</Typography>
           <div className="flex gap-4">
             {['Chia sẻ', 'Yêu thích'].map((text, i) => (
-              <div key={i} className="font-medium flex items-center gap-2 cursor-pointer">
-                {i === 0 ? <ShareIcon width={16} height={16} /> : <Heart width={16} height={16} />}
-                <Typography underline type="primary" className="text-sm font-semibold">{text}</Typography>
+              <div key={i} className="font-medium flex items-center gap-2 cursor-pointer"
+                onClick={() => {
+                  if (i === 1) setLiked((prev) => !prev);
+                }}
+              >
+                {i === 0 ? <ShareIcon width={16} height={16} /> : <Heart width={16} height={16} className={liked ? "text-red-500 fill-red-500" : "text-gray-500"} />}
+                <Typography underline type="primary" className="text-sm font-semibold max-md:hidden">{text}</Typography>
               </div>
             ))}
           </div>
@@ -394,7 +430,14 @@ export function RoomDetailTemplate({ id }: RoomDetailTemplateProps) {
                 ? 'md:sticky top-2 self-start'
                 : ''
               }`}>
-            <BookingSummary />
+            <BookingSummary
+              checkIn={checkIn}
+              checkOut={checkOut}
+              onDateClick={handleSelect}
+              setMonthOffset={setMonthOffset}
+              monthOffset={monthOffset}
+              onClear={handleClear}
+            />
           </div>
         </div>
       </div>
