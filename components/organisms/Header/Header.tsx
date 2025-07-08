@@ -46,8 +46,8 @@ export const Header = () => {
 
   // Quyết định class cho header dựa trên props
   const headerClasses = disableScrollLogic
-    ? "top-0 left-0 right-0 z-50 border-b shadow-sm pt-2"
-    : "fixed top-0 left-0 right-0 z-50 border-b shadow-sm pt-2";
+    ? "max-md:hidden top-0 left-0 right-0 z-50 border-b shadow-md pt-2"
+    : "max-md:hidden fixed top-0 left-0 right-0 z-50 border-b shadow-sm pt-2";
 
   // Quyết định logic hiển thị dựa trên props
   const shouldShowScrolledState = (!disableScrollLogic && isScrolled) || disableScrollLogic;
@@ -167,7 +167,7 @@ export const Header = () => {
 
           {/* Collapsed Search Bar - Show when scrolled and not expanded, hoặc khi disable scroll logic */}
           {((disableScrollLogic) || (!disableScrollLogic && isScrolled)) && !expandSearch && (
-            <div className={`absolute top-[50%] translate-y-[-125%] left-0 right-0 flex justify-center transition-all duration-500 ${shouldShowScrolledState ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}`}>
+            <div className={`md:w-[80%] md:mx-auto absolute top-[50%] translate-y-[-125%] left-0 right-0 flex justify-center transition-all duration-500 ${shouldShowScrolledState ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}`}>
               <div
                 ref={collapsedSearchRef}
                 className="flex items-center space-x-4 border rounded-full max-h-16 py-2 px-6 shadow-md hover:shadow-lg transition-shadow bg-white"
@@ -181,25 +181,25 @@ export const Header = () => {
                   onClick={(e) => handleExpandSearch('location', e)}
                 >
                   <Search size={16} />
-                  <span className="text-sm font-medium">Địa điểm bất kỳ</span>
+                  <span className="text-sm font-medium flex-1 hidden md:block">Địa điểm bất kỳ</span>
                 </div>
                 <div
                   className="flex items-center space-x-3 border-r pr-4 cursor-pointer  rounded-lg px-2 py-1 transition-colors"
                   onClick={(e) => handleExpandSearch('checkIn', e)}
                 >
                   <CalendarDays size={16} />
-                  <span className="text-sm font-medium">Thời gian bất kỳ</span>
+                  <span className="text-sm font-medium flex-1 hidden md:block">Thời gian bất kỳ</span>
                 </div>
                 <div
-                  className="flex items-center space-x-3 cursor-pointer  rounded-lg px-2 py-1 transition-colors"
+                  className="flex items-center justify-between space-x-3 cursor-pointer  rounded-lg px-2 py-1 transition-colors"
                   onClick={(e) => handleExpandSearch('guest', e)}
                 >
                   <Users size={16} />
-                  <span className="text-sm font-medium">Thêm khách</span>
+                  <span className="text-sm font-medium flex-1 hidden md:block">Thêm khách</span>
                   <Button
                     size="md"
-                    className="text-white rounded-full transition-colors flex-shrink-0 text-nowrap w-10 h-10 ml-2"
-                    icon={<Search size={20} />}
+                    className="text-white rounded-full transition-colors flex-shrink-0 text-nowrap w-8 h-8 ml-2"
+                    icon={<Search size={15} />}
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
